@@ -20,7 +20,10 @@ const products = ref<IProduct[]>([
         url: 'https://uflor.ru/api-v2/thumbnail/?src=/upload/iblock/4c0/l5ft2a17cefn413vq1qwtpen62qx0w3d.jpeg&w=312&h=312',
       },
     ],
-    flowerTypes: []
+    flowerTypes: [],
+    recipients: [],
+    reasons: [],
+    isActive: true
   },
 ])
 

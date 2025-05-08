@@ -9,6 +9,9 @@ export interface IProduct {
   price: number
   size: number | null
   flowerTypes: number[]
+  recipients: number[]
+  reasons: number[]
+  isActive: boolean
 }
 
 export interface INewProduct extends Omit<IProduct, 'id' | 'price'> {

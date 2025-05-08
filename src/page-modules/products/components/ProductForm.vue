@@ -4,6 +4,8 @@ import type { INewProduct, IProduct } from '@/shared/types/product'
 import AnotherSelect from '@/shared/components/AnotherSelect.vue'
 import { useSizeStore } from '@/stores/useSizeStore.ts'
 import { useFlowerTypeStore } from '@/stores/useFlowerTypeStore.ts'
+import { useRecipientStore } from '@/stores/useRecipientStore.ts'
+import { useReasonStore } from '@/stores/useReasonStore.ts'
 
 withDefaults(defineProps<{
   disabled?: boolean
@@ -15,6 +17,8 @@ const model = defineModel<IProduct | INewProduct>({ required: true })
 
 const sizeStore = useSizeStore()
 const flowerTypeStore = useFlowerTypeStore()
+const recipientStore = useRecipientStore()
+const reasonStore = useReasonStore()
 </script>
 
 <template>
@@ -86,17 +90,9 @@ const flowerTypeStore = useFlowerTypeStore()
       label="Получатели"
     >
       <AnotherSelect
-        v-model="model.flowerTypes"
+        v-model="model.recipients"
         :disabled="disabled"
-        :options="[
-          { value: 1, label: 'Отец' },
-          { value: 2, label: 'Девушка' },
-          { value: 3, label: 'Невеста' },
-          { value: 4, label: 'Жена' },
-          { value: 5, label: 'Дочь' },
-          { value: 6, label: 'Бабушка' },
-          { value: 7, label: 'Учитель' },
-        ]"
+        :options="recipientStore.options"
       />
     </ElFormItem>
 
@@ -105,17 +101,9 @@ const flowerTypeStore = useFlowerTypeStore()
       label="Повод"
     >
       <AnotherSelect
-        v-model="model.flowerTypes"
+        v-model="model.reasons"
         :disabled="disabled"
-        :options="[
-          { value: 1, label: 'Свадьба' },
-          { value: 2, label: 'Свидание' },
-          { value: 3, label: 'Извинение' },
-          { value: 4, label: 'День рождения' },
-          { value: 5, label: 'Рождение ребенка' },
-          { value: 6, label: 'Годовщина' },
-          { value: 17, label: 'Развод' },
-        ]"
+        :options="reasonStore.options"
       />
     </ElFormItem>
 
@@ -124,16 +112,16 @@ const flowerTypeStore = useFlowerTypeStore()
       label="Статус"
     >
       <el-radio-group
-        model-value="1"
+        v-model="model.isActive"
         :disabled="disabled"
       >
         <el-radio-button
           label="Активен"
-          value="1"
+          :value="true"
         />
         <el-radio-button
           label="В архиве"
-          value="2"
+          :value="false"
         />
       </el-radio-group>
     </ElFormItem>

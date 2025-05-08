@@ -12,7 +12,10 @@ const data = ref<INewProduct>({
   images: [],
   price: '',
   size: null,
-  flowerTypes: []
+  flowerTypes: [],
+  recipients: [],
+  reasons: [],
+  isActive: true
 })
 // endregion
 </script>
