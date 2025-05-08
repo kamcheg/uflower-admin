@@ -1,19 +1,14 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query'
 import AppSchedule from "@/shared/components/AppSchedule.vue";
 import {fetchBrand} from "../api/api";
 import type {IBrandInfo} from "@/shared/types/info";
 import axios from "axios";
 import LogoUpload from "@/widgets/brand-info/ui/LogoUpload.vue";
-import { onMounted, ref } from 'vue'
 
-const formData = ref<IBrandInfo | null>(null)
-
-onMounted(async () => {
-  try {
-    formData.value = await fetchBrand()
-  } catch (e) {
-    console.log(e) // TODO
-  }
+const { data: formData, isPending, isError } = useQuery<IBrandInfo>({
+  queryKey: ['brand-data'],
+  queryFn: fetchBrand
 })
 
 function onUpdate() {
@@ -37,7 +32,9 @@ function onUpdate() {
 </script>
 
 <template>
-  <el-card v-if="formData" class="card">
+  <h1 v-if="isError">Произошла ошибка! Не удалось загрузить данные!</h1>
+  <h1 v-else-if="isPending">Загрузка...</h1>
+  <el-card v-else-if="!isPending && formData" class="card">
     <template #header>
       <div class="card-header">
         <p>Общая информация</p>
