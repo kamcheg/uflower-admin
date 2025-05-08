@@ -7,6 +7,7 @@ export interface IProduct {
     url: string
   }[]
   price: number
+  size: number | null
   flowerTypes: number[]
 }
 

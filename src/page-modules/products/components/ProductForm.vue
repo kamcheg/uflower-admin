@@ -2,6 +2,7 @@
 import MassUpload from '@/shared/components/MassUpload.vue'
 import type { INewProduct, IProduct } from '@/shared/types/product'
 import AnotherSelect from '@/shared/components/AnotherSelect.vue'
+import { useSizeStore } from '@/stores/useSizeStore.ts'
 
 withDefaults(defineProps<{
   disabled?: boolean
@@ -10,6 +11,8 @@ withDefaults(defineProps<{
 })
 
 const model = defineModel<IProduct | INewProduct>({ required: true })
+
+const sizeStore = useSizeStore()
 </script>
 
 <template>
@@ -50,13 +53,14 @@ const model = defineModel<IProduct | INewProduct>({ required: true })
       label-position="top"
       label="Размер букета"
     >
-      <ElSelect placeholder="" clearable>
+      <ElSelect
+        v-model="model.size"
+        :disabled="disabled"
+        placeholder=""
+        clearable
+      >
         <el-option
-          v-for="item in [
-            {value: 1, label: 'Маленький'},
-            {value: 2, label: 'Средний'},
-            {value: 3, label: 'Большой'}
-          ]"
+          v-for="item in sizeStore.options"
           :key="item.value"
           :label="item.label"
           :value="item.value"

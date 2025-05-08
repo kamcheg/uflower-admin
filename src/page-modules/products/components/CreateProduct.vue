@@ -11,6 +11,8 @@ const data = ref<INewProduct>({
   description: '',
   images: [],
   price: '',
+  size: null,
+  flowerTypes: []
 })
 // endregion
 </script>
