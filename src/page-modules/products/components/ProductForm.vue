@@ -3,6 +3,7 @@ import MassUpload from '@/shared/components/MassUpload.vue'
 import type { INewProduct, IProduct } from '@/shared/types/product'
 import AnotherSelect from '@/shared/components/AnotherSelect.vue'
 import { useSizeStore } from '@/stores/useSizeStore.ts'
+import { useFlowerTypeStore } from '@/stores/useFlowerTypeStore.ts'
 
 withDefaults(defineProps<{
   disabled?: boolean
@@ -13,6 +14,7 @@ withDefaults(defineProps<{
 const model = defineModel<IProduct | INewProduct>({ required: true })
 
 const sizeStore = useSizeStore()
+const flowerTypeStore = useFlowerTypeStore()
 </script>
 
 <template>
@@ -75,15 +77,7 @@ const sizeStore = useSizeStore()
       <AnotherSelect
         v-model="model.flowerTypes"
         :disabled="disabled"
-        :options="[
-          { value: 1, label: 'Розы' },
-          { value: 2, label: 'Пионы' },
-          { value: 3, label: 'Хризантемы' },
-          { value: 4, label: 'Ромашки' },
-          { value: 5, label: 'Лилии' },
-          { value: 6, label: 'Архидеи' },
-          { value: 7, label: 'Диантусы' },
-        ]"
+        :options="flowerTypeStore.options"
       />
     </ElFormItem>
 
