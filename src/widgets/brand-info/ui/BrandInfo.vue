@@ -1,34 +1,25 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery } from '@tanstack/vue-query'
 import AppSchedule from "@/shared/components/AppSchedule.vue";
-import {fetchBrand} from "../api/api";
+import { fetchBrand, update } from '../api/api'
 import type {IBrandInfo} from "@/shared/types/info";
-import axios from "axios";
 import LogoUpload from "@/widgets/brand-info/ui/LogoUpload.vue";
+import { ref, toRaw, watch } from 'vue'
 
-const { data: formData, isPending, isError } = useQuery<IBrandInfo>({
+
+const formData = ref<IBrandInfo | null>(null)
+const { data, isPending, isError, refetch } = useQuery<IBrandInfo>({
   queryKey: ['brand-data'],
-  queryFn: fetchBrand
+  queryFn: fetchBrand,
+})
+watch(data, (newData) => {
+  if (newData) { formData.value = toRaw(newData) }
 })
 
-function onUpdate() {
-  if (!formData.value) { return }
-
-  try {
-    axios.patch('/brands', {
-      name: formData.value.name,
-      email: formData.value.email,
-      sitePhone: formData.value.phone,
-      schedule: {
-        from: formData.value.workTime.from,
-        to: formData.value.workTime.to,
-        isAlwaysOpened: formData.value.workTime.isAlwaysOpen,
-      },
-    })
-  } catch (e) {
-    console.log(e)
-  }
-}
+const mutation = useMutation({
+  mutationFn: update,
+  onSuccess: () => refetch()
+})
 </script>
 
 <template>
@@ -88,7 +79,7 @@ function onUpdate() {
       <div style="display: flex; justify-content: flex-end;">
         <ElButton
           type="primary"
-          @click="onUpdate"
+          @click="mutation.mutate(formData)"
         >
           Сохранить
         </ElButton>
