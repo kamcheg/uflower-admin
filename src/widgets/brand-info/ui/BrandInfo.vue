@@ -2,12 +2,23 @@
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import AppSchedule from "@/shared/components/AppSchedule.vue";
 import { fetchBrand, update } from '../api/api'
-import type {IBrandInfo} from "@/shared/types/info";
+import type { IBrandInfo } from '@/shared/types/info'
 import LogoUpload from "@/widgets/brand-info/ui/LogoUpload.vue";
 import { ref, toRaw, watch } from 'vue'
 
 
-const formData = ref<IBrandInfo | null>(null)
+const formData = ref<IBrandInfo>({
+  id: 0,
+  logo: '',
+  name: '',
+  phone: '',
+  email: '',
+  workTime: {
+    from: '',
+    to: '',
+    isAlwaysOpen: false
+  }
+})
 const { data, isPending, isError, refetch } = useQuery<IBrandInfo>({
   queryKey: ['brand-data'],
   queryFn: fetchBrand,
@@ -24,8 +35,7 @@ const mutation = useMutation({
 
 <template>
   <h1 v-if="isError">Произошла ошибка! Не удалось загрузить данные!</h1>
-  <h1 v-else-if="isPending">Загрузка...</h1>
-  <el-card v-else-if="!isPending && formData" class="card">
+  <el-card v-else v-loading="isPending" class="card">
     <template #header>
       <div class="card-header">
         <p>Общая информация</p>
