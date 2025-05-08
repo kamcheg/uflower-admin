@@ -8,6 +8,8 @@ import { ref } from 'vue'
 const props = withDefaults(defineProps<{
   store?: IStore
   mode?: 'update' | 'create'
+  isSaveButtonLoading?: boolean
+  isDeleteButtonLoading?: boolean
 }>(), {
   store: () => ({
     id: 0,
@@ -20,7 +22,9 @@ const props = withDefaults(defineProps<{
     },
     coords: null
   }),
-  mode: 'update'
+  mode: 'update',
+  isSaveButtonLoading: false,
+  isDeleteButtonLoading: false
 })
 
 const emit = defineEmits<{
@@ -76,7 +80,7 @@ function onDelete() {
 
     <template #footer>
       <div class="footer">
-        <ElButton type="primary" @click="onSave">
+        <ElButton type="primary" :loading="isSaveButtonLoading" @click="onSave">
           Сохранить
         </ElButton>
 
@@ -91,6 +95,7 @@ function onDelete() {
 
     <ModalConfirm
       v-model="isOpenModalDelete"
+      :is-yes-button-loading="isDeleteButtonLoading"
       @yes="onDelete"
     />
   </el-card>

@@ -1,77 +1,79 @@
 <script setup lang="ts">
-import StoreCard from "@/widgets/store-info/ui/StoreCard.vue";
-import axios from "axios";
-import type {IStore} from "@/shared/types/info";
-import {fetchStores} from "@/widgets/store-info/api/api";
-import {getBodyForServer} from "../api/adapters";
-import ModalCreate from "@/widgets/store-info/ui/ModalCreate.vue";
-import { onMounted, ref } from 'vue'
+import StoreCard from '@/widgets/store-info/ui/StoreCard.vue'
+import type { IStore } from '@/shared/types/info'
+import { createStore, deleteStore, fetchStores, updateStore } from '@/widgets/store-info/api/api'
+import ModalCreate from '@/widgets/store-info/ui/ModalCreate.vue'
+import { ref, toRaw, watch } from 'vue'
+import { useMutation, useQuery } from '@tanstack/vue-query'
+import { ElMessage } from 'element-plus'
 
 // DATA
-const stores = ref<IStore[]>([])
 const isModalCreateVisible = ref(false)
 
-// METHODS
-async function onCreateStore(event: IStore) {
-  try {
-    await axios.post('/shops', getBodyForServer(event))
+const stores = ref<IStore[]>([])
+const { data, isPending, isError, refetch } = useQuery<IStore[]>({
+  queryKey: ['stores'],
+  queryFn: fetchStores,
+})
+watch(data, (newData) => {
+  if (newData) { stores.value = toRaw(newData) }
+})
+
+const mutationCreateStore = useMutation({
+  mutationFn: createStore,
+  onSuccess: async () => {
+    await refetch()
     isModalCreateVisible.value = false
-    await init()
-  } catch (e) {
-    console.log(e) // TODO
+  },
+  onError: () => {
+    ElMessage.error('Произошла ошибка! Не удалось сохранить магазин!')
   }
-}
+})
 
-async function onDeleteStore(id: number) {
-  try {
-    await axios.delete('/shops/' + id)
-    stores.value = stores.value.filter(i => i.id !== id)
-  } catch (e) {
-    console.log(e) // TODO
+const mutationUpdateStore = useMutation({
+  mutationFn: updateStore,
+  onSuccess: () => refetch(),
+  onError: () => {
+    ElMessage.error('Произошла ошибка! Не удалось обновить данные!')
   }
-}
+})
 
-function onUpdateStore(event: IStore) {
-  try {
-    axios.patch('/shops/' + event.id, getBodyForServer(event))
-  } catch (e) {
-    console.log(e) // TODO
+const mutationDeleteStore = useMutation({
+  mutationFn: deleteStore,
+  onSuccess: () => refetch(),
+  onError: () => {
+    ElMessage.error('Произошла ошибка! Не удалось удалить магазин!')
   }
-}
-
-async function init() {
-  stores.value = await fetchStores()
-}
-
-onMounted(init)
+})
 </script>
 
 <template>
-  <StoreCard
-    v-for="store of stores"
-    :key="store.id"
-    :store="store"
-    style="margin-top: 20px;"
-    @delete="onDeleteStore(store.id)"
-    @save="onUpdateStore"
-  />
+  <h1 v-if="isPending">Загрузка...</h1>
+  <h1 v-else-if="isError">Не удалось загрузить список магазинов!</h1>
+  <template v-else>
+    <StoreCard
+      v-for="store of stores"
+      :key="store.id"
+      :store="store"
+      style="margin-top: 20px"
+      :isSaveButtonLoading="mutationUpdateStore.isPending.value"
+      :isDeleteButtonLoading="mutationDeleteStore.isPending.value"
+      @delete="mutationDeleteStore.mutate(store.id)"
+      @save="mutationUpdateStore.mutate($event)"
+    />
 
-  <div style="display: flex; justify-content:flex-end;">
-    <ElButton
-      type="success"
-      style="margin-top: 24px;"
-      @click="isModalCreateVisible = true"
-    >
-      Добавить магазин
-    </ElButton>
-  </div>
+    <div style="display: flex; justify-content: flex-end">
+      <ElButton type="success" style="margin-top: 24px" @click="isModalCreateVisible = true">
+        Добавить магазин
+      </ElButton>
+    </div>
 
-  <ModalCreate
-    v-model="isModalCreateVisible"
-    @create="onCreateStore"
-  />
+    <ModalCreate
+      v-model="isModalCreateVisible"
+      :is-button-loading="mutationCreateStore.isPending.value"
+      @create="mutationCreateStore.mutate($event)"
+    />
+  </template>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

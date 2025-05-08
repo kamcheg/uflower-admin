@@ -2,6 +2,12 @@
 import StoreCard from "./StoreCard.vue";
 import type {IStore} from "@/shared/types/info";
 
+withDefaults(defineProps<{
+  isButtonLoading?: boolean
+}>(), {
+  isButtonLoading: false
+})
+
 const emit = defineEmits<{
   (e: 'create', event: IStore): void
 }>()
@@ -11,7 +17,11 @@ const model = defineModel<boolean>({required: true})
 
 <template>
   <ElDialog v-model="model" class="my-d">
-    <StoreCard mode="create" @save="emit('create', $event)" />
+    <StoreCard
+      mode="create"
+      :isSaveButtonLoading="isButtonLoading"
+      @save="emit('create', $event)"
+    />
   </ElDialog>
 </template>
 
