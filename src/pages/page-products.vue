@@ -19,6 +19,7 @@ const products = ref<IProduct[]>([
         url: 'https://uflor.ru/api-v2/thumbnail/?src=/upload/iblock/4c0/l5ft2a17cefn413vq1qwtpen62qx0w3d.jpeg&w=312&h=312',
       },
     ],
+    flowerTypes: []
   },
   {
     id: 47,
@@ -31,6 +32,7 @@ const products = ref<IProduct[]>([
         url: 'https://uflor.ru/api-v2/thumbnail/?src=/upload/iblock/356/26ptsypgbdce8qia72o004blfb0h09f9.jpg&w=312&h=312',
       },
     ],
+    flowerTypes: []
   },
   {
     id: 48,
@@ -43,6 +45,7 @@ const products = ref<IProduct[]>([
         url: 'https://uflor.ru/api-v2/thumbnail/?src=/upload/iblock/92f/8yae0t8zo4c6lkfm78bg33xc7gfjz15u.jpeg&w=312&h=312',
       },
     ],
+    flowerTypes: []
   },
 ])
 

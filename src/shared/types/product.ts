@@ -7,6 +7,7 @@ export interface IProduct {
     url: string
   }[]
   price: number
+  flowerTypes: number[]
 }
 
 export interface INewProduct extends Omit<IProduct, 'id' | 'price'> {

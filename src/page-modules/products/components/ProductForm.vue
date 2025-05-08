@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MassUpload from '@/shared/components/MassUpload.vue'
 import type { INewProduct, IProduct } from '@/shared/types/product'
+import AnotherSelect from '@/shared/components/AnotherSelect.vue'
 
 withDefaults(defineProps<{
   disabled?: boolean
@@ -42,6 +43,81 @@ const model = defineModel<IProduct | INewProduct>({ required: true })
         v-model.number="model.price"
         type="number"
         :disabled="disabled"
+      />
+    </ElFormItem>
+
+    <ElFormItem
+      label-position="top"
+      label="Размер букета"
+    >
+      <ElSelect placeholder="" clearable>
+        <el-option
+          v-for="item in [
+            {value: 1, label: 'Маленький'},
+            {value: 2, label: 'Средний'},
+            {value: 3, label: 'Большой'}
+          ]"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
+      </ElSelect>
+    </ElFormItem>
+
+    <ElFormItem
+      label-position="top"
+      label="Состав букета"
+    >
+      <AnotherSelect
+        v-model="model.flowerTypes"
+        :disabled="disabled"
+        :options="[
+          { value: 1, label: 'Розы' },
+          { value: 2, label: 'Пионы' },
+          { value: 3, label: 'Хризантемы' },
+          { value: 4, label: 'Ромашки' },
+          { value: 5, label: 'Лилии' },
+          { value: 6, label: 'Архидеи' },
+          { value: 7, label: 'Диантусы' },
+        ]"
+      />
+    </ElFormItem>
+
+    <ElFormItem
+      label-position="top"
+      label="Получатели"
+    >
+      <AnotherSelect
+        v-model="model.flowerTypes"
+        :disabled="disabled"
+        :options="[
+          { value: 1, label: 'Отец' },
+          { value: 2, label: 'Девушка' },
+          { value: 3, label: 'Невеста' },
+          { value: 4, label: 'Жена' },
+          { value: 5, label: 'Дочь' },
+          { value: 6, label: 'Бабушка' },
+          { value: 7, label: 'Учитель' },
+        ]"
+      />
+    </ElFormItem>
+
+    <ElFormItem
+      label-position="top"
+      label="Повод"
+    >
+      <AnotherSelect
+        v-model="model.flowerTypes"
+        :disabled="disabled"
+        :options="[
+          { value: 1, label: 'Свадьба' },
+          { value: 2, label: 'Свидание' },
+          { value: 3, label: 'Извинение' },
+          { value: 4, label: 'День рождения' },
+          { value: 5, label: 'Рождение ребенка' },
+          { value: 6, label: 'Годовщина' },
+          { value: 17, label: 'Развод' },
+        ]"
       />
     </ElFormItem>
 
