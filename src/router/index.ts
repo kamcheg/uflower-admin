@@ -19,6 +19,11 @@ const router = createRouter({
           name: 'products',
           component: () => import('../pages/page-products.vue'),
         },
+        {
+          path: 'profile',
+          name: 'profile',
+          component: () => import('../pages/page-profile.vue'),
+        },
       ]
     },
     {
