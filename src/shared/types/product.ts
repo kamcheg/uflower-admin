@@ -2,10 +2,7 @@ export interface IProduct {
   id: number
   name: string
   description: string
-  images: {
-    id: number
-    url: string
-  }[]
+  images: string[]
   price: number
   size: number | null
   flowerTypes: number[]

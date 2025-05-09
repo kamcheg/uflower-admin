@@ -3,29 +3,19 @@ import ProductCard from '@/page-modules/products/components/ProductCard.vue'
 import type { IProduct } from '@/shared/types/product'
 import ProductDetail from '@/page-modules/products/components/ProductDetail.vue'
 import CreateProduct from '@/page-modules/products/components/CreateProduct.vue'
-import axios from "axios";
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref, toRaw, watch } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import { getProducts } from '@/page-modules/products/model/api.ts'
 
 // region DATA
-const products = ref<IProduct[]>([
-  {
-    id: 46,
-    name: 'Великая княжна',
-    price: 20300,
-    size: 2,
-    description: '',
-    images: [
-      {
-        id: 348957,
-        url: 'https://uflor.ru/api-v2/thumbnail/?src=/upload/iblock/4c0/l5ft2a17cefn413vq1qwtpen62qx0w3d.jpeg&w=312&h=312',
-      },
-    ],
-    flowerTypes: [],
-    recipients: [],
-    reasons: [],
-    isActive: true
-  },
-])
+const products = ref<IProduct[]>([])
+const { data } = useQuery<IProduct[]>({
+  queryKey: ['catalog-items'],
+  queryFn: getProducts,
+})
+watch(data, (newData) => {
+  if (newData) { products.value = toRaw(newData) }
+})
 
 const currentId = ref<null | number>(null)
 // endregion
@@ -39,10 +29,6 @@ const isOpenDrawer = computed(() => {
   return currentId.value !== null
 })
 // endregion
-
-onMounted(async () => {
-  await axios.get('/flowers')
-})
 </script>
 
 <template>

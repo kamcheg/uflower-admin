@@ -3,6 +3,8 @@ import { Plus } from '@element-plus/icons-vue'
 import ProductForm from '@/page-modules/products/components/ProductForm.vue'
 import type { INewProduct } from '@/shared/types/product'
 import { ref } from 'vue'
+import { useMutation } from '@tanstack/vue-query'
+import { createProduct } from '@/page-modules/products/model/api.ts'
 
 // region DATA
 const open = ref(false)
@@ -18,6 +20,11 @@ const data = ref<INewProduct>({
   isActive: true
 })
 // endregion
+
+const mutation = useMutation({
+  mutationFn: createProduct,
+  // onSuccess: () => refetch()
+})
 </script>
 
 <template>
@@ -47,6 +54,7 @@ const data = ref<INewProduct>({
           <ElButton
             type="success"
             style="width: 100%;"
+            @click="mutation.mutate(data)"
           >
             Создать
           </ElButton>

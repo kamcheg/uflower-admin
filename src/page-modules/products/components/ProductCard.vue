@@ -17,7 +17,7 @@ const emit = defineEmits<{
       <div class="image-place__inner">
         <!--        TODO -->
         <img
-          :src="data.images[0].url"
+          :src="data.images[0]"
           alt=""
         >
       </div>
