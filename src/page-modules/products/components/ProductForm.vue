@@ -7,12 +7,6 @@ import { useFlowerTypeStore } from '@/stores/useFlowerTypeStore.ts'
 import { useRecipientStore } from '@/stores/useRecipientStore.ts'
 import { useReasonStore } from '@/stores/useReasonStore.ts'
 
-withDefaults(defineProps<{
-  disabled?: boolean
-}>(), {
-  disabled: false,
-})
-
 const model = defineModel<IProduct | INewProduct>({ required: true })
 
 const sizeStore = useSizeStore()
@@ -29,7 +23,6 @@ const reasonStore = useReasonStore()
     >
       <ElInput
         v-model="model.name"
-        :disabled="disabled"
       />
     </ElFormItem>
 
@@ -39,7 +32,6 @@ const reasonStore = useReasonStore()
     >
       <ElInput
         v-model="model.description"
-        :disabled="disabled"
         type="textarea"
       />
     </ElFormItem>
@@ -51,7 +43,6 @@ const reasonStore = useReasonStore()
       <ElInput
         v-model.number="model.price"
         type="number"
-        :disabled="disabled"
       />
     </ElFormItem>
 
@@ -61,7 +52,6 @@ const reasonStore = useReasonStore()
     >
       <ElSelect
         v-model="model.size"
-        :disabled="disabled"
         placeholder=""
         clearable
       >
@@ -80,7 +70,6 @@ const reasonStore = useReasonStore()
     >
       <AnotherSelect
         v-model="model.flowerTypes"
-        :disabled="disabled"
         :options="flowerTypeStore.options"
       />
     </ElFormItem>
@@ -91,7 +80,6 @@ const reasonStore = useReasonStore()
     >
       <AnotherSelect
         v-model="model.recipients"
-        :disabled="disabled"
         :options="recipientStore.options"
       />
     </ElFormItem>
@@ -102,7 +90,6 @@ const reasonStore = useReasonStore()
     >
       <AnotherSelect
         v-model="model.reasons"
-        :disabled="disabled"
         :options="reasonStore.options"
       />
     </ElFormItem>
@@ -113,7 +100,6 @@ const reasonStore = useReasonStore()
     >
       <el-radio-group
         v-model="model.isActive"
-        :disabled="disabled"
       >
         <el-radio-button
           label="Активен"

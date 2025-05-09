@@ -15,7 +15,6 @@ const emit = defineEmits<{
 
 // region DATA
 const isVisibleDeleteModal = ref(false)
-const isEditMode = ref(false)
 const localData = ref<IProduct>(
   JSON.parse(JSON.stringify(props.data)),
 )
@@ -41,51 +40,27 @@ function onDeleteProduct() {
     >
       <ProductForm
         v-model="localData"
-        :disabled="!isEditMode"
       />
 
       <div class="pr-drawer__footer">
-        <template v-if="!isEditMode">
-          <div>
-            <ElButton
-              type="danger"
-              style="width: 100%;"
-              @click="isVisibleDeleteModal = true"
-            >
-              Удалить
-            </ElButton>
-          </div>
+        <div>
+          <ElButton
+            type="danger"
+            style="width: 100%;"
+            @click="isVisibleDeleteModal = true"
+          >
+            Удалить
+          </ElButton>
+        </div>
 
-          <div>
-            <ElButton
-              type="primary"
-              style="width: 100%; margin-top: 10px;"
-              @click="isEditMode = true"
-            >
-              Редактировать
-            </ElButton>
-          </div>
-        </template>
-
-        <template v-else>
-          <div>
-            <ElButton
-              style="width: 100%;"
-              @click="isEditMode = false"
-            >
-              Отменить редактирование
-            </ElButton>
-          </div>
-
-          <div>
-            <ElButton
-              type="success"
-              style="width: 100%; margin-top: 10px;"
-            >
-              Сохранить
-            </ElButton>
-          </div>
-        </template>
+        <div>
+          <ElButton
+            type="success"
+            style="width: 100%; margin-top: 10px;"
+          >
+            Сохранить
+          </ElButton>
+        </div>
       </div>
     </div>
 
