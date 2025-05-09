@@ -131,8 +131,7 @@ const reasonStore = useReasonStore()
       label="Фото"
     >
       <MassUpload
-        :disabled="disabled"
-        :images="model.images"
+        v-model="model.images"
       />
     </ElFormItem>
   </div>

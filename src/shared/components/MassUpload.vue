@@ -1,60 +1,86 @@
-<template>
-  <el-upload
-    v-if="!disabled"
-    v-model:file-list="fileList"
-    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-    list-type="picture-card"
-    :limit="4"
-    :on-remove="handleRemove"
-  >
-    <el-icon><Plus /></el-icon>
-  </el-upload>
+<script lang="ts" setup>
+import MyUpload from '@/shared/components/MyUpload.vue'
+import { FullScreen, Delete } from '@element-plus/icons-vue'
 
-  <div
-    v-else
-    class="gallery"
-  >
+const model = defineModel<string[]>()
+
+function onDelete(image: string) {
+  model.value = model.value.filter(i => i !== image)
+}
+</script>
+
+<template>
+  <div class="gallery">
+    <MyUpload
+      class="gallery__item"
+      @on-upload="model.unshift($event)"
+    />
+
     <div
-      v-for="img of images"
-      :key="img.id"
+      v-for="image of model"
+      :key="image"
+      class="image-wrapper gallery__item"
     >
-      <img
-        :src="img.url"
-        alt=""
-        style="display: block; width: 100%;"
-      >
+      <img :src="image" alt="Photo">
+      <div class="overlay">
+        <div class="buttons">
+          <ElButton :icon="FullScreen" circle />
+          <ElButton
+            :icon="Delete"
+            circle
+            @click="onDelete(image)"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
-import type { UploadProps, UploadUserFile } from 'element-plus'
-
-interface IImage {
-  id: number
-  url: string
-}
-
-const props = withDefaults(defineProps<{
-  disabled?: boolean
-  images: IImage[]
-}>(), {
-  disabled: false,
-})
-
-const fileList = ref<UploadUserFile[]>(props.images.map(i => ({ ...i, name: '' })))
-
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles)
-}
-</script>
-
 <style lang="scss" scoped>
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 6px;
+  display: flex;
+  grid-gap: 4px;
+  flex-wrap: wrap;
+
+  &__item {
+    width: 150px;
+    height: 150px;
+  }
+
+  .image-wrapper {
+    position: relative;
+
+    &:hover .overlay{
+      opacity: 1;
+    }
+
+    img {
+      display: block;
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .overlay {
+      opacity: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: .2s;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, .5);
+      border-radius: 12px;
+
+      .buttons {
+        color: #fff;
+      }
+    }
+  }
 }
 </style>
