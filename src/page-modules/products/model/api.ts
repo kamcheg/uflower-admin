@@ -22,3 +22,7 @@ export async function getProducts(): Promise<IProduct[]> {
     isActive: p.isActive
   }))
 }
+
+export async function deleteProduct(id: number) {
+  await axios.delete('/flowers/' + id)
+}

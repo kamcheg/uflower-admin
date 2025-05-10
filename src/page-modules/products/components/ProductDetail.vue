@@ -2,29 +2,40 @@
 // ДЛЯ КОРРЕКТНОЙ РАБОТЫ КОМПОНЕНТА НУЖНО УКАЗАТЬ :KEY
 import type { IProduct } from '@/shared/types/product'
 import ProductForm from '@/page-modules/products/components/ProductForm.vue'
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 
 const props = defineProps<{
   isOpen: boolean
   data: IProduct | null
+  isDeleteButtonLoading: boolean
 }>()
 
 const emit = defineEmits<{
+  (e: 'save', ev: IProduct): void
+  (e: 'delete'): void
   (e: 'close'): void
 }>()
 
 // region DATA
 const isVisibleDeleteModal = ref(false)
 const localData = ref<IProduct>(
-  JSON.parse(JSON.stringify(props.data)),
+  JSON.parse(JSON.stringify(toRaw(props.data))), // TODO data can be null
 )
 // endregion
 
 // region METHODS
 function onDeleteProduct() {
-  console.log('onDeleteProduct')
+  emit('delete')
+}
+
+function onSave() {
+  console.log('onSave', localData)
 }
 // endregion
+
+defineExpose({
+  isVisibleDeleteModal
+})
 </script>
 
 <template>
@@ -57,6 +68,7 @@ function onDeleteProduct() {
           <ElButton
             type="success"
             style="width: 100%; margin-top: 10px;"
+            @click="onSave"
           >
             Сохранить
           </ElButton>
@@ -72,6 +84,7 @@ function onDeleteProduct() {
       <div style="display: flex; justify-content:flex-end;">
         <ElButton
           type="danger"
+          :loading="isDeleteButtonLoading"
           @click="onDeleteProduct"
         >
           Да

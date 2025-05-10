@@ -3,13 +3,17 @@ import ProductCard from '@/page-modules/products/components/ProductCard.vue'
 import type { IProduct } from '@/shared/types/product'
 import ProductDetail from '@/page-modules/products/components/ProductDetail.vue'
 import CreateProduct from '@/page-modules/products/components/CreateProduct.vue'
-import { computed, ref, toRaw, watch } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
-import { getProducts } from '@/page-modules/products/model/api.ts'
+import { computed, ref, toRaw, useTemplateRef, watch } from 'vue'
+import { useMutation, useQuery } from '@tanstack/vue-query'
+import { deleteProduct, getProducts } from '@/page-modules/products/model/api.ts'
+import { ElMessage } from 'element-plus'
 
-// region DATA
+// region DEFINED
+const refProductDetail = useTemplateRef('refProductDetail')
+// endregion DEFINED
+
 const products = ref<IProduct[]>([])
-const { data } = useQuery<IProduct[]>({
+const { data, refetch } = useQuery<IProduct[]>({
   queryKey: ['catalog-items'],
   queryFn: getProducts,
 })
@@ -17,8 +21,17 @@ watch(data, (newData) => {
   if (newData) { products.value = toRaw(newData) }
 })
 
+const mutationDelete = useMutation({
+  mutationFn: deleteProduct,
+  onSuccess: async () => {
+    await refetch()
+    refProductDetail.value!.isVisibleDeleteModal = false
+    currentId.value = null
+    ElMessage.success('Товар удален!')
+  }
+})
+
 const currentId = ref<null | number>(null)
-// endregion
 
 // region COMPUTED
 const currentProduct = computed<IProduct | null>(() => {
@@ -44,9 +57,12 @@ const isOpenDrawer = computed(() => {
 
     <ProductDetail
       :key="currentId || undefined"
+      ref="refProductDetail"
       :is-open="isOpenDrawer"
       :data="currentProduct!"
+      :isDeleteButtonLoading="mutationDelete.isPending.value"
       @close="currentId = null"
+      @delete="mutationDelete.mutate(currentId!)"
     />
   </div>
 </template>

@@ -2,7 +2,7 @@
 import MyUpload from '@/shared/components/MyUpload.vue'
 import { FullScreen, Delete } from '@element-plus/icons-vue'
 
-const model = defineModel<string[]>()
+const model = defineModel<string[]>({required: true})
 
 function onDelete(image: string) {
   model.value = model.value.filter(i => i !== image)
