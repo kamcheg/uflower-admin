@@ -1,4 +1,15 @@
 <script setup lang="ts">
+// TODO
+// Валидация
+// Проработать структуру дто привести в единый стиль
+// Проработать адаптеры
+// Пагинация
+// Обновить визуал кнопки добавления
+// Чек ошибок
+// Вывод если нет товаров
+// Проверить лоудеры
+// Проверить архитектуру папок
+
 import ProductCard from '@/page-modules/products/components/ProductCard.vue'
 import type { IProduct } from '@/shared/types/product'
 import ProductDetail from '@/page-modules/products/components/ProductDetail.vue'
