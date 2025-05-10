@@ -35,6 +35,10 @@ const mutationDelete = useMutation({
 
 const mutationSave = useMutation({
   mutationFn: updateProduct,
+  onSuccess: async () => {
+    await refetch()
+    ElMessage.success('Данные о товаре обновлены!')
+  }
 })
 
 const currentId = ref<null | number>(null)
