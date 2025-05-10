@@ -29,7 +29,7 @@ function onDeleteProduct() {
 }
 
 function onSave() {
-  console.log('onSave', localData)
+  emit('save', localData.value)
 }
 // endregion
 

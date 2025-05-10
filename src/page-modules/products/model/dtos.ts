@@ -25,3 +25,17 @@ export type ProductFromServer = {
     "title": string
   }[]
 }
+
+// export interface updateDto {
+//   name: string
+//   description: string
+//   price: number
+//   isActive: boolean
+//   width: number
+//   height: number
+//   sizeId: number
+//   reasonIds: number[]
+//   recipientIds: number[]
+//   flowerTypeIds: number[]
+//   images: string[]
+// }

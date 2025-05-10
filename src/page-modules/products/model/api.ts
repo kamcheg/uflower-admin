@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { INewProduct, IProduct } from '@/shared/types/product.ts'
-import { toCreateDto } from '@/page-modules/products/model/adapters.ts'
+import { toCreateDto, toUpdateDto } from '@/page-modules/products/model/adapters.ts'
 import type { ProductFromServer } from '@/page-modules/products/model/dtos.ts'
 
 export async function createProduct(event: INewProduct) {
@@ -25,4 +25,8 @@ export async function getProducts(): Promise<IProduct[]> {
 
 export async function deleteProduct(id: number) {
   await axios.delete('/flowers/' + id)
+}
+
+export async function updateProduct({id, data}: {id: number, data: IProduct}) {
+  return await axios.patch('/flowers/' + id, toUpdateDto(data))
 }

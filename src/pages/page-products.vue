@@ -5,7 +5,7 @@ import ProductDetail from '@/page-modules/products/components/ProductDetail.vue'
 import CreateProduct from '@/page-modules/products/components/CreateProduct.vue'
 import { computed, ref, toRaw, useTemplateRef, watch } from 'vue'
 import { useMutation, useQuery } from '@tanstack/vue-query'
-import { deleteProduct, getProducts } from '@/page-modules/products/model/api.ts'
+import { updateProduct, deleteProduct, getProducts } from '@/page-modules/products/model/api.ts'
 import { ElMessage } from 'element-plus'
 
 // region DEFINED
@@ -18,7 +18,9 @@ const { data, refetch } = useQuery<IProduct[]>({
   queryFn: getProducts,
 })
 watch(data, (newData) => {
-  if (newData) { products.value = toRaw(newData) }
+  if (newData) {
+    products.value = toRaw(newData)
+  }
 })
 
 const mutationDelete = useMutation({
@@ -28,14 +30,18 @@ const mutationDelete = useMutation({
     refProductDetail.value!.isVisibleDeleteModal = false
     currentId.value = null
     ElMessage.success('Товар удален!')
-  }
+  },
+})
+
+const mutationSave = useMutation({
+  mutationFn: updateProduct,
 })
 
 const currentId = ref<null | number>(null)
 
 // region COMPUTED
 const currentProduct = computed<IProduct | null>(() => {
-  return products.value.find(i => i.id === currentId.value) || null
+  return products.value.find((i) => i.id === currentId.value) || null
 })
 
 const isOpenDrawer = computed(() => {
@@ -63,6 +69,7 @@ const isOpenDrawer = computed(() => {
       :isDeleteButtonLoading="mutationDelete.isPending.value"
       @close="currentId = null"
       @delete="mutationDelete.mutate(currentId!)"
+      @save="mutationSave.mutate({id: currentId!, data: $event})"
     />
   </div>
 </template>
