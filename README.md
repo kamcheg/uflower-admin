@@ -13,3 +13,5 @@ create - create{--Products--}
 update - update{--Products--}
 delete - delete{--Products--}
 
+## Folder structure
+TODO
