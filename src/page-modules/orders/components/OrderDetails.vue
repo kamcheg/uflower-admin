@@ -2,6 +2,7 @@
 import type { IOrder } from '@/shared/types/order'
 import OrderProductCard from '@/page-modules/orders/components/OrderProductCard.vue'
 import { toReadableNumber } from '@/shared/lib/toReadableNumber'
+import { computed } from 'vue'
 
 const props = defineProps<{
   data: IOrder | null

@@ -1,6 +1,6 @@
 import type { IProductInOrder } from '@/shared/types/product'
 
-interface IOrderBase {
+export interface IOrderBase {
   id: number
   name: string
   number: string
@@ -10,12 +10,12 @@ interface IOrderBase {
   total: number
 }
 
-interface IMyOrder extends IOrderBase {
+export interface IMyOrder extends IOrderBase {
   isMyOrder: true
   recipient: null
 }
 
-interface IRecipientOrder extends IOrderBase {
+export interface IRecipientOrder extends IOrderBase {
   isMyOrder: false
   recipient: {
     name: string

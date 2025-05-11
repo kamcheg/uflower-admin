@@ -20,6 +20,11 @@ const router = createRouter({
           component: () => import('../pages/page-products.vue'),
         },
         {
+          path: 'orders',
+          name: 'orders',
+          component: () => import('../pages/page-orders.vue'),
+        },
+        {
           path: 'profile',
           name: 'profile',
           component: () => import('../pages/page-profile.vue'),

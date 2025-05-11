@@ -11,7 +11,7 @@ defineProps<{
   <div class="product">
     <div class="image-border">
       <img
-        :src="data.images[0].url"
+        :src="data.images[0]"
         alt=""
       >
     </div>
