@@ -1,6 +1,6 @@
 import type { IProductInOrder } from '@/shared/types/product'
 
-export interface IOrderBase {
+export interface IOrder {
   id: number
   name: string
   number: string
@@ -8,19 +8,9 @@ export interface IOrderBase {
   comment?: string
   products: IProductInOrder[]
   total: number
-}
-
-export interface IMyOrder extends IOrderBase {
-  isMyOrder: true
-  recipient: null
-}
-
-export interface IRecipientOrder extends IOrderBase {
-  isMyOrder: false
+  isMyOrder: boolean
   recipient: {
-    name: string
-    number: string
+    name: string | null
+    number: string | null
   }
 }
-
-export type IOrder = IMyOrder | IRecipientOrder

@@ -20,46 +20,7 @@ const tableHeaders = ref([
 // Доставлен
 // Возврат
 
-const tableData = ref<IOrder[]>([
-  {
-    id: 1,
-    name: 'Иван Иванов',
-    number: '+7 900 123-45-67',
-    address: 'Москва, ул. Ленина, д. 10',
-    isMyOrder: true,
-    recipient: null,
-    comment: 'Позвонить за 30 минут до доставки',
-    products: [
-      {
-        id: 46,
-        name: 'Великая княжна',
-        price: 20300,
-        description: '',
-        size: 1,
-        flowerTypes: [],
-        reasons: [],
-        recipients: [],
-        isActive: true,
-        images: ['https://uflor.ru/api-v2/thumbnail/?src=/upload/iblock/4c0/l5ft2a17cefn413vq1qwtpen62qx0w3d.jpeg&w=312&h=312'],
-        quantity: 3,
-      },
-      {
-        id: 47,
-        name: 'Микс гиацинтов с мимозой в коробке',
-        price: 19200,
-        description: '',
-        size: 1,
-        flowerTypes: [],
-        reasons: [],
-        recipients: [],
-        isActive: true,
-        images: ['https://uflor.ru/api-v2/thumbnail/?src=/upload/iblock/356/26ptsypgbdce8qia72o004blfb0h09f9.jpg&w=312&h=312'],
-        quantity: 2,
-      },
-    ],
-    total: 20360,
-  },
-])
+const tableData = ref<IOrder[]>([])
 const { data } = useQuery<IOrder[]>({
   queryKey: ['orders'],
   queryFn: getAllOrders,
