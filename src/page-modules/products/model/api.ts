@@ -8,7 +8,7 @@ export async function createProduct(event: INewProduct) {
 }
 
 export async function getProducts(): Promise<IProduct[]> {
-  const {data} = await axios.get<ProductFromServer[]>('/flowers')
+  const {data} = await axios.get<ProductFromServer[]>('/flowers/admin')
   return data.map((p): IProduct => ({
     id: p.id,
     name: p.name,
