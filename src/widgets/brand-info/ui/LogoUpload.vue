@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Plus } from '@element-plus/icons-vue'
 import axios from "axios";
-import { ref, useTemplateRef } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 
 const props = defineProps<{
   image: string | null
@@ -10,7 +10,10 @@ const props = defineProps<{
 const fileInput = useTemplateRef('file-input')
 
 // DATA
-const imageUrl = ref<string | null>(props.image)
+const imageUrl = ref<string | null>(null)
+watch(() => props.image, (n) => {
+  imageUrl.value = n
+}, { immediate: true })
 
 // METHODS
 async function onUpload(event: Event) {

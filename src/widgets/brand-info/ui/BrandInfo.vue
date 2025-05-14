@@ -48,11 +48,6 @@ const mutation = useMutation({
         label="Логотип"
       >
         <LogoUpload :image="formData.logo" />
-        <img
-          hidden
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgoTrixXnwZ_-w8TTKIo8lFJIcJ000QFqhUQ&s"
-          alt=""
-        >
       </ElFormItem>
 
       <ElFormItem
