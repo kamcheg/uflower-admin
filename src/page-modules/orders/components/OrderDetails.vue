@@ -121,6 +121,7 @@ const orderInfo = computed<{ label: string, value: string }[]>(() => {
 
   &__total {
     padding-top: 60px;
+    padding-bottom: 24px;
     margin-top: auto;
   }
 }

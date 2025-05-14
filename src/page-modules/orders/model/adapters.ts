@@ -21,7 +21,7 @@ export function transformServerOrderToClient(item: IOrderFromServer) {
       isActive: o.flower?.isActive,
       quantity: o.quantity
     })),
-    total: 10000000, // TODO
+    total: item.total, // TODO
     isMyOrder: item.isDeliverToCustomer,
     recipient: {
       name: item.recipientName,

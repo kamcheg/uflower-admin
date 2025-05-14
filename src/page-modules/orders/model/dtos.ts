@@ -1,5 +1,6 @@
 export interface IOrderFromServer {
   "id": number
+  "total": number
   "createdAt": string
   "updatedAt": string
   "customerName": string
