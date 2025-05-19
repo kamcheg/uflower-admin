@@ -10,15 +10,8 @@ const tableHeaders = ref([
   { prop: 'id', label: 'ID', width: '80px' },
   { prop: 'name', label: 'Имя заказчика' },
   { prop: 'number', label: 'Телефон заказчика' },
-  { prop: '', label: 'Статус' },
+  { prop: 'address', label: 'Адрес' },
 ])
-
-// statuses
-// Не обработан
-// Отложен
-// Отменен
-// Доставлен
-// Возврат
 
 const { data: tableData } = useQuery<IOrder[]>({
   queryKey: ['orders'],
