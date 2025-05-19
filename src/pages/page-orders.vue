@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/vue-query'
 import { getAllOrders } from '@/page-modules/orders/model/api.ts'
 
 const tableHeaders = ref([
-  { prop: 'id', label: 'ID', width: '80px' },
   { prop: 'name', label: 'Имя заказчика' },
   { prop: 'number', label: 'Телефон заказчика' },
   { prop: 'address', label: 'Адрес' },

@@ -4,6 +4,11 @@ import ModalChangePassword from '@/widgets/modal-change-password/ui/ModalChangeP
 import { ref } from 'vue'
 
 const isChangePasswordModalVisible = ref(false)
+
+function onLogout() {
+  localStorage.removeItem('token')
+  location.href = '/login'
+}
 </script>
 
 <template>
@@ -52,7 +57,9 @@ const isChangePasswordModalVisible = ref(false)
               Сменить пароль
             </ElDropdownItem>
             <ElDropdownItem>Привязать телеграм</ElDropdownItem>
-            <ElDropdownItem>Выйти</ElDropdownItem>
+            <ElDropdownItem @click="onLogout">
+              Выйти
+            </ElDropdownItem>
           </ElDropdownMenu>
         </template>
       </ElDropdown>
