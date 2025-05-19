@@ -25,7 +25,7 @@ const modelLng = defineModel<number | null>('lng', { required: true })
 const query = ref(modelAddress.value)
 
 const querySearchAsync = async (query: string, cb: (arg: IItem[]) => void) => {
-  const token = "58c32a9a6700723589530251df0175b4cb16a540"; // TODO env
+  const token = import.meta.env.VITE_DADATA_TOKEN;
 
   try {
     const res = await axios.post<{suggestions: IDtoItem[]}>('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', { query: query }, {
