@@ -9,6 +9,7 @@ import { phoneMask } from '@/shared/utils/phoneNormalizer.ts'
 import { useMutation } from '@tanstack/vue-query'
 import { createStore, deleteStore, updateStore } from '@/widgets/store-info/api/api.ts'
 import { ElMessage } from 'element-plus'
+import AddressAutocomplete from '@/shared/components/AddressAutocomplete.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -87,6 +88,8 @@ const mutationCreateStore = useMutation({
     ElMessage.error('Произошла ошибка! Не удалось сохранить магазин!')
   },
 })
+
+const t = ref(null)
 </script>
 
 <template>
@@ -98,6 +101,9 @@ const mutationCreateStore = useMutation({
     </template>
 
     <div>
+      <pre>{{t}}</pre>
+      <AddressAutocomplete @select="t = $event" />
+
       <ElFormItem label-position="top" label="Адрес магазина">
         <ElInput v-model="formData.address" />
       </ElFormItem>

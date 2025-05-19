@@ -65,18 +65,12 @@ function onInput() {
 </script>
 
 <template>
-  <h1>{{query}}</h1>
   <ElAutocomplete
     v-model="query"
     :fetch-suggestions="querySearchAsync"
     @select="handleSelect"
     @input="onInput"
   >
-    <!--        <template #default="{ item }">-->
-    <!--          <div class="value">{{ item.value }}</div>-->
-    <!--          <span class="link">{{ item.link }}</span>-->
-    <!--        </template>-->
-
     <template #loading>
       Loading...
     </template>
