@@ -33,15 +33,15 @@ const orderInfo = computed<{ label: string, value: string }[]>(() => {
     },
     {
       label: 'Имя получателя',
-      value: props.data.recipient?.name,
+      value: props.data.recipient?.name || '',
     },
     {
       label: 'Телефон получателя',
-      value: props.data.recipient?.number,
+      value: props.data.recipient?.number || '',
     },
     {
       label: 'Комментарий к заказу',
-      value: props.data.comment,
+      value: props.data.comment || '',
     },
   ].filter(i => !!i.value)
 })
