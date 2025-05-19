@@ -10,6 +10,8 @@ export interface IProduct {
   reasons: number[]
   isActive: boolean
   inStock: boolean
+  height: number
+  width: number
 }
 
 export interface INewProduct extends Omit<IProduct, 'id' | 'price'> {

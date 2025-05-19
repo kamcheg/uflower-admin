@@ -21,6 +21,8 @@ export async function getProducts(): Promise<IProduct[]> {
     reasons: p.reasons.map(p => p.id),
     isActive: p.isActive,
     inStock: p.inStock,
+    height: p.height,
+    width: p.width,
   }))
 }
 

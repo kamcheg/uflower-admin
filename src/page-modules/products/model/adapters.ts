@@ -6,9 +6,10 @@ export function toCreateDto(event: INewProduct) {
     description: event.description,
     price: event.price,
     isActive: event.isActive,
-    width: 60, // TODO
-    height: 110, // TODO
-    sizeId: event.size, //
+    inStock: event.inStock,
+    width: event.width,
+    height: event.height,
+    sizeId: event.size,
     reasonIds: event.reasons,
     recipientIds: event.recipients,
     flowerTypeIds: event.flowerTypes,
@@ -22,8 +23,9 @@ export function toUpdateDto(event: IProduct) {
     description: event.description,
     price: event.price,
     isActive: event.isActive,
-    width: 60, // TODO
-    height: 110, // TODO
+    inStock: event.inStock,
+    width: event.width,
+    height: event.height,
     sizeId: event.size,
     reasonIds: event.reasons,
     recipientIds: event.recipients,

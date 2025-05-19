@@ -96,6 +96,22 @@ const reasonStore = useReasonStore()
 
     <ElFormItem
       label-position="top"
+      label="Ширина/высота"
+    >
+      <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px;">
+        <ElInput
+          v-model.number="model.width"
+          placeholder="Ширина"
+        />
+        <ElInput
+          v-model.number="model.height"
+          placeholder="Высота"
+        />
+      </div>
+    </ElFormItem>
+
+    <ElFormItem
+      label-position="top"
       label="Статус"
     >
       <el-radio-group
