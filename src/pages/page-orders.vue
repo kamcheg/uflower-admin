@@ -75,6 +75,7 @@ const value2 = ref(['', ''])
   </h1>
   <div v-else>
     <el-date-picker
+      v-if="false"
       v-model="value2"
       type="daterange"
       unlink-panels
