@@ -14,6 +14,7 @@ export function toCreateDto(event: INewProduct) {
     recipientIds: event.recipients,
     flowerTypeIds: event.flowerTypes,
     images: event.images,
+    priority: event.priority
   }
 }
 
@@ -31,5 +32,6 @@ export function toUpdateDto(event: IProduct) {
     recipientIds: event.recipients,
     flowerTypeIds: event.flowerTypes,
     images: event.images,
+    priority: event.priority
   }
 }

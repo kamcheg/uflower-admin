@@ -12,6 +12,7 @@ export interface IProduct {
   inStock: boolean
   height: number
   width: number
+  priority: number
 }
 
 export interface INewProduct extends Omit<IProduct, 'id' | 'price'> {

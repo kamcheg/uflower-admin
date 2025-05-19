@@ -1,5 +1,6 @@
 export type ProductFromServer = {
   "id": number
+  "priority": number
   "name": string
   "description": string
   "price": number
