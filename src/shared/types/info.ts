@@ -18,5 +18,8 @@ export interface IStore {
   address: string
   phone: string
   workTime: IWorkTime
-  coords: [number, number] | null
+  coords: {
+    lat: number | null
+    lng: number | null
+  }
 }

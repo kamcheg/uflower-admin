@@ -17,7 +17,7 @@ const props = withDefaults(
     mode?: 'update' | 'create'
   }>(),
   {
-    store: () => ({
+    store: (): IStore => ({
       id: 0,
       address: '',
       phone: '',
@@ -26,7 +26,10 @@ const props = withDefaults(
         to: '',
         isAlwaysOpen: false,
       },
-      coords: null,
+      coords: {
+        lat: null,
+        lng: null
+      },
     }),
     mode: 'update',
     isSaveButtonLoading: false,
@@ -89,7 +92,6 @@ const mutationCreateStore = useMutation({
   },
 })
 
-const t = ref(null)
 </script>
 
 <template>
@@ -101,8 +103,7 @@ const t = ref(null)
     </template>
 
     <div>
-      <pre>{{t}}</pre>
-      <AddressAutocomplete @select="t = $event" />
+      <AddressAutocomplete />
 
       <ElFormItem label-position="top" label="Адрес магазина">
         <ElInput v-model="formData.address" />

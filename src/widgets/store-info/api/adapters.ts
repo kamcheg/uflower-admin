@@ -10,6 +10,9 @@ export function getBodyForServer(data: IStore) {
       to: data.workTime.to,
       isAlwaysOpened: data.workTime.isAlwaysOpen
     },
-    coords: data.coords || [0, 0] // TODO
+    coords: [
+      data.coords.lng,
+      data.coords.lat,
+    ]
   }
 }

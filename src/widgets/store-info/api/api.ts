@@ -16,7 +16,10 @@ export async function fetchStores(): Promise<IStore[]> {
         to: i.schedule.to,
         isAlwaysOpen: i.schedule.isAlwaysOpened
       },
-      coords: i.coords || []
+      coords: {
+        lat: i.coords[1],
+        lng: i.coords[0],
+      }
     }
   })
 }

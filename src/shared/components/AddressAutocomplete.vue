@@ -55,7 +55,7 @@ function handleSelect(item: IItem) {
 
 function onInput() {
   emit('select', {
-    value: query,
+    value: query.value,
     coords: {
       lat: null,
       lng: null,
