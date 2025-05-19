@@ -18,11 +18,11 @@ interface IItem {
   }
 }
 
-const emit = defineEmits<{
-  (name: 'select', event: IItem): void
-}>()
+const modelAddress = defineModel<string>('address', { required: true })
+const modelLat = defineModel<number | null>('lat', { required: true })
+const modelLng = defineModel<number | null>('lng', { required: true })
 
-const query = ref('')
+const query = ref(modelAddress.value)
 
 const querySearchAsync = async (query: string, cb: (arg: IItem[]) => void) => {
   const token = "58c32a9a6700723589530251df0175b4cb16a540"; // TODO env
@@ -50,17 +50,15 @@ const querySearchAsync = async (query: string, cb: (arg: IItem[]) => void) => {
 }
 
 function handleSelect(item: IItem) {
-  emit('select', item)
+  modelAddress.value = item.value
+  modelLat.value = item.coords.lat
+  modelLng.value = item.coords.lng
 }
 
-function onInput() {
-  emit('select', {
-    value: query.value,
-    coords: {
-      lat: null,
-      lng: null,
-    }
-  })
+function onInput(e: string) {
+  modelAddress.value = e
+  modelLat.value = null
+  modelLng.value = null
 }
 </script>
 

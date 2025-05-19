@@ -103,10 +103,12 @@ const mutationCreateStore = useMutation({
     </template>
 
     <div>
-      <AddressAutocomplete />
-
       <ElFormItem label-position="top" label="Адрес магазина">
-        <ElInput v-model="formData.address" />
+        <AddressAutocomplete
+          v-model:address="formData.address"
+          v-model:lat="formData.coords.lat"
+          v-model:lng="formData.coords.lng"
+        />
       </ElFormItem>
 
       <ElFormItem label-position="top" label="Номер телефона магазина">
