@@ -3,16 +3,7 @@
 
 <template>
   <div class="header">
-    <div class="left">
-      <RouterLink
-        to="/"
-        class="logo-place"
-      >
-        Left
-      </RouterLink>
-    </div>
-
-    <div class="center">
+    <div class="menu">
       <div class="nav">
         <ElLink
           href="/"
@@ -65,10 +56,8 @@
   align-items: center;
   padding: 0 20px;
 
-  .center {
+  .menu {
     .nav {
-      margin-left: 120px;
-
       &__item {
         font-weight: 500;
 
@@ -76,14 +65,6 @@
           margin-left: 40px;
         }
       }
-    }
-  }
-
-  .left {
-    .logo-place {
-      display: block;
-      font-size: 30px;
-      font-weight: 700;
     }
   }
 
