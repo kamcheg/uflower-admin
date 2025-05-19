@@ -67,7 +67,7 @@ async function onRemove() {
 <template>
   <div v-if="imageUrl">
     <el-dropdown placement="bottom-start">
-      <img :src="imageUrl" alt="logo">
+      <img :src="imageUrl" alt="logo" class="logo-image">
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item @click="fileInput?.click()">Обновить лого</el-dropdown-item>
@@ -89,6 +89,11 @@ async function onRemove() {
 </template>
 
 <style lang="scss" scoped>
+.logo-image {
+  max-height: 70px;
+  max-width: 100px;
+}
+
 .empty-upload {
   width: 170px;
   height: 90px;

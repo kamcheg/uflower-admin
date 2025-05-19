@@ -4,6 +4,7 @@ export type ProductFromServer = {
   "description": string
   "price": number
   "isActive": boolean
+  "inStock": boolean
   "width": number
   "height": number
   "images": string[]

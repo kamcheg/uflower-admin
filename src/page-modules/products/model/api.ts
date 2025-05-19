@@ -19,7 +19,8 @@ export async function getProducts(): Promise<IProduct[]> {
     flowerTypes: p.flowerTypes.map(p => p.id),
     recipients: p.recipients.map(p => p.id),
     reasons: p.reasons.map(p => p.id),
-    isActive: p.isActive
+    isActive: p.isActive,
+    inStock: p.inStock,
   }))
 }
 

@@ -9,6 +9,7 @@ export interface IProduct {
   recipients: number[]
   reasons: number[]
   isActive: boolean
+  inStock: boolean
 }
 
 export interface INewProduct extends Omit<IProduct, 'id' | 'price'> {

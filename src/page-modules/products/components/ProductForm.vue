@@ -112,6 +112,10 @@ const reasonStore = useReasonStore()
       </el-radio-group>
     </ElFormItem>
 
+    <ElCheckbox v-model="model.inStock">
+      Букет уже собран
+    </ElCheckbox>
+
     <ElFormItem
       label-position="top"
       label="Фото"

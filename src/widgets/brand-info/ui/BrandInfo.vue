@@ -6,7 +6,6 @@ import type { IBrandInfo } from '@/shared/types/info'
 import LogoUpload from "@/widgets/brand-info/ui/LogoUpload.vue";
 import { ref, toRaw, watch } from 'vue'
 
-
 const formData = ref<IBrandInfo>({
   id: 0,
   logo: '',

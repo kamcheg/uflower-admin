@@ -19,9 +19,7 @@ import { useMutation, useQuery } from '@tanstack/vue-query'
 import { updateProduct, deleteProduct, getProducts } from '@/page-modules/products/model/api.ts'
 import { ElMessage } from 'element-plus'
 
-// region DEFINED
 const refProductDetail = useTemplateRef('refProductDetail')
-// endregion DEFINED
 
 const products = ref<IProduct[]>([])
 const { data, refetch } = useQuery<IProduct[]>({
