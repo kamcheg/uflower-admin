@@ -6,7 +6,7 @@ axios.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem('token')
 
-    if (token) {
+    if (token && !config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${token}`
     }
 
@@ -15,6 +15,7 @@ axios.interceptors.request.use(
   error => Promise.reject(error)
 )
 
+// TODO если dadata выкинет 401 то у меня произойдет разлогирование
 axios.interceptors.response.use(
   response => response,
   async (error) => {

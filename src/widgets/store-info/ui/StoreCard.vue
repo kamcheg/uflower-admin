@@ -1,34 +1,37 @@
 <script setup lang="ts">
 import AppSchedule from '@/shared/components/AppSchedule.vue'
-import {Delete} from "@element-plus/icons-vue";
-import type {IStore} from "@/shared/types/info";
-import ModalConfirm from "@/shared/components/ModalConfirm.vue";
+import { Delete } from '@element-plus/icons-vue'
+import type { IStore } from '@/shared/types/info'
+import ModalConfirm from '@/shared/components/ModalConfirm.vue'
 import { ref } from 'vue'
-import { vMaska } from "maska/vue"
+import { vMaska } from 'maska/vue'
 import { phoneMask } from '@/shared/utils/phoneNormalizer.ts'
 import { useMutation } from '@tanstack/vue-query'
 import { createStore, deleteStore, updateStore } from '@/widgets/store-info/api/api.ts'
 import { ElMessage } from 'element-plus'
 
-const props = withDefaults(defineProps<{
-  store?: IStore
-  mode?: 'update' | 'create'
-}>(), {
-  store: () => ({
-    id: 0,
-    address: '',
-    phone: '',
-    workTime: {
-      from: '',
-      to: '',
-      isAlwaysOpen: false,
-    },
-    coords: null
-  }),
-  mode: 'update',
-  isSaveButtonLoading: false,
-  isDeleteButtonLoading: false
-})
+const props = withDefaults(
+  defineProps<{
+    store?: IStore
+    mode?: 'update' | 'create'
+  }>(),
+  {
+    store: () => ({
+      id: 0,
+      address: '',
+      phone: '',
+      workTime: {
+        from: '',
+        to: '',
+        isAlwaysOpen: false,
+      },
+      coords: null,
+    }),
+    mode: 'update',
+    isSaveButtonLoading: false,
+    isDeleteButtonLoading: false,
+  },
+)
 
 const emit = defineEmits<{
   (e: 'refetch'): void
@@ -60,7 +63,7 @@ const mutationUpdateStore = useMutation({
   },
   onError: () => {
     ElMessage.error('Произошла ошибка! Не удалось обновить данные!')
-  }
+  },
 })
 
 const mutationDeleteStore = useMutation({
@@ -71,7 +74,7 @@ const mutationDeleteStore = useMutation({
   },
   onError: () => {
     ElMessage.error('Произошла ошибка! Не удалось удалить магазин!')
-  }
+  },
 })
 
 const mutationCreateStore = useMutation({
@@ -82,7 +85,7 @@ const mutationCreateStore = useMutation({
   },
   onError: () => {
     ElMessage.error('Произошла ошибка! Не удалось сохранить магазин!')
-  }
+  },
 })
 </script>
 
@@ -95,17 +98,11 @@ const mutationCreateStore = useMutation({
     </template>
 
     <div>
-      <ElFormItem
-        label-position="top"
-        label="Адрес магазина"
-      >
+      <ElFormItem label-position="top" label="Адрес магазина">
         <ElInput v-model="formData.address" />
       </ElFormItem>
 
-      <ElFormItem
-        label-position="top"
-        label="Номер телефона магазина"
-      >
+      <ElFormItem label-position="top" label="Номер телефона магазина">
         <ElInput v-model="formData.phone" v-maska="phoneMask" />
       </ElFormItem>
 
@@ -114,7 +111,7 @@ const mutationCreateStore = useMutation({
         v-model:from="formData.workTime.from"
         v-model:to="formData.workTime.to"
         title="График работы магазина"
-        style="margin-bottom: 0;"
+        style="margin-bottom: 0"
       />
     </div>
 
