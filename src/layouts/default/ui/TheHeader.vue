@@ -30,6 +30,13 @@ const isChangePasswordModalVisible = ref(false)
         >
           Заказы
         </ElLink>
+
+        <ElLink
+          href="/todo"
+          class="nav__item"
+        >
+          База клиентов
+        </ElLink>
       </div>
     </div>
 
