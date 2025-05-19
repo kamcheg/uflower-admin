@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { UserFilled } from '@element-plus/icons-vue'
+import ModalChangePassword from '@/widgets/modal-change-password/ui/ModalChangePassword.vue'
+import { ref } from 'vue'
+
+const isChangePasswordModalVisible = ref(false)
 </script>
 
 <template>
@@ -25,25 +30,28 @@
         >
           Заказы
         </ElLink>
-
-        <ElLink
-          v-if="false"
-          href="/filters"
-          class="nav__item"
-        >
-          Фильтры
-        </ElLink>
       </div>
     </div>
 
     <div class="right">
-      <ElLink
-        href="/profile"
-        class="nav__item"
-      >
-        Профиль
-      </ElLink>
+      <ElDropdown placement="bottom-start">
+        <ElButton circle>
+          <ElIcon><UserFilled /></ElIcon>
+        </ElButton>
+
+        <template #dropdown>
+          <ElDropdownMenu>
+            <ElDropdownItem @click="isChangePasswordModalVisible = true">
+              Сменить пароль
+            </ElDropdownItem>
+            <ElDropdownItem>Привязать телеграм</ElDropdownItem>
+            <ElDropdownItem>Выйти</ElDropdownItem>
+          </ElDropdownMenu>
+        </template>
+      </ElDropdown>
     </div>
+
+    <ModalChangePassword v-model="isChangePasswordModalVisible" />
   </div>
 </template>
 

@@ -66,15 +66,19 @@ async function onRemove() {
 
 <template>
   <div v-if="imageUrl">
-    <el-dropdown placement="bottom-start">
+    <ElDropdown placement="bottom-start">
       <img :src="imageUrl" alt="logo" class="logo-image">
       <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="fileInput?.click()">Обновить лого</el-dropdown-item>
-          <el-dropdown-item @click="onRemove">Удалить лого</el-dropdown-item>
-        </el-dropdown-menu>
+        <ElDropdownMenu>
+          <ElDropdownItem @click="fileInput?.click()">
+            Обновить лого
+          </ElDropdownItem>
+          <ElDropdownItem @click="onRemove">
+            Удалить лого
+          </ElDropdownItem>
+        </ElDropdownMenu>
       </template>
-    </el-dropdown>
+    </ElDropdown>
   </div>
 
   <div
