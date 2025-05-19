@@ -1,8 +1,9 @@
 import type {IStore} from "@/shared/types/info";
+import { getRawPhoneNumber } from '@/shared/utils/phoneNormalizer.ts'
 
 export function getBodyForServer(data: IStore) {
   return {
-    phone: data.phone,
+    phone: getRawPhoneNumber(data.phone),
     address: data.address,
     schedule: {
       from: data.workTime.from,

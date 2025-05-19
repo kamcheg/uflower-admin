@@ -22,6 +22,7 @@ watch(data, (newData) => {
 const mutationCreateStore = useMutation({
   mutationFn: createStore,
   onSuccess: async () => {
+    ElMessage.success('Магазин создан!')
     await refetch()
     isModalCreateVisible.value = false
   },
@@ -32,7 +33,10 @@ const mutationCreateStore = useMutation({
 
 const mutationUpdateStore = useMutation({
   mutationFn: updateStore,
-  onSuccess: () => refetch(),
+  onSuccess: async () => {
+    ElMessage.success('Данные обновлены!')
+    await refetch()
+  },
   onError: () => {
     ElMessage.error('Произошла ошибка! Не удалось обновить данные!')
   }
@@ -40,7 +44,10 @@ const mutationUpdateStore = useMutation({
 
 const mutationDeleteStore = useMutation({
   mutationFn: deleteStore,
-  onSuccess: () => refetch(),
+  onSuccess: async () => {
+    ElMessage.success('Магазин удален!')
+    await refetch()
+  },
   onError: () => {
     ElMessage.error('Произошла ошибка! Не удалось удалить магазин!')
   }
