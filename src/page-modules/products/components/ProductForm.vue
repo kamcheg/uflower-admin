@@ -141,7 +141,7 @@ const reasonStore = useReasonStore()
       label-position="top"
       label="Приоритет"
     >
-      <ElInput v-model.number="model.priority" />
+      <ElInput v-model.number="model.priority" type="number" />
 <!--      <div style="color: #ccc; font-size: 12px;">От -100000 до 100000</div>-->
     </ElFormItem>
 
