@@ -56,7 +56,11 @@ function onLogout() {
             <ElDropdownItem @click="isChangePasswordModalVisible = true">
               Сменить пароль
             </ElDropdownItem>
-            <ElDropdownItem>Привязать телеграм</ElDropdownItem>
+
+            <ElDropdownItem>
+              Привязать телеграм
+            </ElDropdownItem>
+
             <ElDropdownItem @click="onLogout">
               Выйти
             </ElDropdownItem>
