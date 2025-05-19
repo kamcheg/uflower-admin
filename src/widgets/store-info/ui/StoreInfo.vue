@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import StoreCard from '@/widgets/store-info/ui/StoreCard.vue'
 import type { IStore } from '@/shared/types/info'
-import { createStore, deleteStore, fetchStores, updateStore } from '@/widgets/store-info/api/api'
+import { fetchStores } from '@/widgets/store-info/api/api'
 import ModalCreate from '@/widgets/store-info/ui/ModalCreate.vue'
 import { ref, toRaw, watch } from 'vue'
-import { useMutation, useQuery } from '@tanstack/vue-query'
-import { ElMessage } from 'element-plus'
+import { useQuery } from '@tanstack/vue-query'
 
 // DATA
 const isModalCreateVisible = ref(false)
@@ -18,40 +17,6 @@ const { data, isPending, isError, refetch } = useQuery<IStore[]>({
 watch(data, (newData) => {
   if (newData) { stores.value = toRaw(newData) }
 })
-
-const mutationCreateStore = useMutation({
-  mutationFn: createStore,
-  onSuccess: async () => {
-    ElMessage.success('Магазин создан!')
-    await refetch()
-    isModalCreateVisible.value = false
-  },
-  onError: () => {
-    ElMessage.error('Произошла ошибка! Не удалось сохранить магазин!')
-  }
-})
-
-const mutationUpdateStore = useMutation({
-  mutationFn: updateStore,
-  onSuccess: async () => {
-    ElMessage.success('Данные обновлены!')
-    await refetch()
-  },
-  onError: () => {
-    ElMessage.error('Произошла ошибка! Не удалось обновить данные!')
-  }
-})
-
-const mutationDeleteStore = useMutation({
-  mutationFn: deleteStore,
-  onSuccess: async () => {
-    ElMessage.success('Магазин удален!')
-    await refetch()
-  },
-  onError: () => {
-    ElMessage.error('Произошла ошибка! Не удалось удалить магазин!')
-  }
-})
 </script>
 
 <template>
@@ -63,10 +28,7 @@ const mutationDeleteStore = useMutation({
       :key="store.id"
       :store="store"
       style="margin-top: 20px"
-      :isSaveButtonLoading="mutationUpdateStore.isPending.value"
-      :isDeleteButtonLoading="mutationDeleteStore.isPending.value"
-      @delete="mutationDeleteStore.mutate(store.id)"
-      @save="mutationUpdateStore.mutate($event)"
+      @refetch="refetch"
     />
 
     <div style="display: flex; justify-content: flex-end">
@@ -77,8 +39,10 @@ const mutationDeleteStore = useMutation({
 
     <ModalCreate
       v-model="isModalCreateVisible"
-      :is-button-loading="mutationCreateStore.isPending.value"
-      @create="mutationCreateStore.mutate($event)"
+      @create="async () => {
+        await refetch()
+        isModalCreateVisible = false
+      }"
     />
   </template>
 </template>

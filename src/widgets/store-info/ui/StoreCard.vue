@@ -6,12 +6,13 @@ import ModalConfirm from "@/shared/components/ModalConfirm.vue";
 import { ref } from 'vue'
 import { vMaska } from "maska/vue"
 import { phoneMask } from '@/shared/utils/phoneNormalizer.ts'
+import { useMutation } from '@tanstack/vue-query'
+import { createStore, deleteStore, updateStore } from '@/widgets/store-info/api/api.ts'
+import { ElMessage } from 'element-plus'
 
 const props = withDefaults(defineProps<{
   store?: IStore
   mode?: 'update' | 'create'
-  isSaveButtonLoading?: boolean
-  isDeleteButtonLoading?: boolean
 }>(), {
   store: () => ({
     id: 0,
@@ -30,8 +31,8 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  (e: 'delete'): void
-  (e: 'save', event: IStore): void
+  (e: 'refetch'): void
+  (e: 'create'): void
 }>()
 
 // DATA
@@ -39,13 +40,50 @@ const formData = ref<IStore>(props.store)
 const isOpenModalDelete = ref(false)
 
 // METHODS
-function onSave() {
-  emit('save', formData.value)
+function onUpdate() {
+  mutationUpdateStore.mutate(formData.value)
+}
+
+function onCreate() {
+  mutationCreateStore.mutate(formData.value)
 }
 
 function onDelete() {
-  emit('delete')
+  mutationDeleteStore.mutate(props.store.id)
 }
+
+const mutationUpdateStore = useMutation({
+  mutationFn: updateStore,
+  onSuccess: async () => {
+    ElMessage.success('Данные обновлены!')
+    emit('refetch')
+  },
+  onError: () => {
+    ElMessage.error('Произошла ошибка! Не удалось обновить данные!')
+  }
+})
+
+const mutationDeleteStore = useMutation({
+  mutationFn: deleteStore,
+  onSuccess: async () => {
+    ElMessage.success('Магазин удален!')
+    emit('refetch')
+  },
+  onError: () => {
+    ElMessage.error('Произошла ошибка! Не удалось удалить магазин!')
+  }
+})
+
+const mutationCreateStore = useMutation({
+  mutationFn: createStore,
+  onSuccess: async () => {
+    ElMessage.success('Магазин создан!')
+    emit('create')
+  },
+  onError: () => {
+    ElMessage.error('Произошла ошибка! Не удалось сохранить магазин!')
+  }
+})
 </script>
 
 <template>
@@ -82,7 +120,21 @@ function onDelete() {
 
     <template #footer>
       <div class="footer">
-        <ElButton type="primary" :loading="isSaveButtonLoading" @click="onSave">
+        <ElButton
+          v-if="mode === 'create'"
+          type="primary"
+          :loading="mutationCreateStore.isPending.value"
+          @click="onCreate"
+        >
+          Сохранить
+        </ElButton>
+
+        <ElButton
+          v-if="mode === 'update'"
+          type="primary"
+          :loading="mutationUpdateStore.isPending.value"
+          @click="onUpdate"
+        >
           Сохранить
         </ElButton>
 
@@ -97,7 +149,7 @@ function onDelete() {
 
     <ModalConfirm
       v-model="isOpenModalDelete"
-      :is-yes-button-loading="isDeleteButtonLoading"
+      :is-yes-button-loading="mutationDeleteStore.isPending.value"
       @yes="onDelete"
     />
   </el-card>
