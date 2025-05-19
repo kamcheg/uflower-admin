@@ -5,6 +5,8 @@ import { fetchBrand, update } from '../api/api'
 import type { IBrandInfo } from '@/shared/types/info'
 import LogoUpload from "@/widgets/brand-info/ui/LogoUpload.vue";
 import { ref, toRaw, watch } from 'vue'
+import { vMaska } from "maska/vue"
+import { phoneMask } from '@/shared/utils/phoneNormalizer.ts'
 
 const formData = ref<IBrandInfo>({
   id: 0,
@@ -60,7 +62,7 @@ const mutation = useMutation({
         label-position="top"
         label="Номер телефона"
       >
-        <ElInput v-model="formData.phone" />
+        <ElInput v-model="formData.phone" v-maska="phoneMask" />
       </ElFormItem>
 
       <ElFormItem

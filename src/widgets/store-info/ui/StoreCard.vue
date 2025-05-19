@@ -4,6 +4,8 @@ import {Delete} from "@element-plus/icons-vue";
 import type {IStore} from "@/shared/types/info";
 import ModalConfirm from "@/shared/components/ModalConfirm.vue";
 import { ref } from 'vue'
+import { vMaska } from "maska/vue"
+import { phoneMask } from '@/shared/utils/phoneNormalizer.ts'
 
 const props = withDefaults(defineProps<{
   store?: IStore
@@ -66,7 +68,7 @@ function onDelete() {
         label-position="top"
         label="Номер телефона магазина"
       >
-        <ElInput v-model="formData.phone" />
+        <ElInput v-model="formData.phone" v-maska="phoneMask" />
       </ElFormItem>
 
       <AppSchedule
