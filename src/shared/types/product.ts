@@ -19,6 +19,6 @@ export interface INewProduct extends Omit<IProduct, 'id' | 'price'> {
   price: '' | number
 }
 
-export interface IProductInOrder extends IProduct {
+export interface IProductInOrder extends Pick<IProduct, 'id' | 'name' | 'description' | 'images' | 'price'> {
   quantity: number
 }
