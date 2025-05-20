@@ -15,7 +15,7 @@ function onLogout() {
 async function onTelegram() {
   try {
     const { data: token } = await axios.post('/users/generate-telegram-token')
-    const url = 'https://t.me/uflowertest_bot?start=' + token
+    const url = `https://t.me/${import.meta.env.VITE_TG_BOT_NAME}?start=${token}`
     window.open(url, '_blank') // откроется в новой вкладке или окне
   } catch {
     ElMessage.error('Произошла ошибка!')
