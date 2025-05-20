@@ -3,6 +3,7 @@ import { UserFilled } from '@element-plus/icons-vue'
 import ModalChangePassword from '@/widgets/modal-change-password/ui/ModalChangePassword.vue'
 import { ref } from 'vue'
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 
 const isChangePasswordModalVisible = ref(false)
 
@@ -17,7 +18,7 @@ async function onTelegram() {
     const url = 'https://t.me/uflowertest_bot?start=' + token
     window.open(url, '_blank') // откроется в новой вкладке или окне
   } catch {
-    console.log('err')
+    ElMessage.error('Произошла ошибка!')
   }
 }
 </script>
