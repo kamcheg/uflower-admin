@@ -40,7 +40,7 @@ async function onUpload(event: Event) {
     const formData = new FormData()
     formData.append('file', file)
 
-    const newLogo = await axios.post<{url: string}>('/upload-image', formData)
+    const newLogo = await axios.post<{url: string}>('/upload-image', formData, { params: { optimize: false} })
       .then(res => res.data.url)
     await axios.post('/brands/change-logo', {
       logo: newLogo
