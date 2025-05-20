@@ -2,12 +2,23 @@
 import { UserFilled } from '@element-plus/icons-vue'
 import ModalChangePassword from '@/widgets/modal-change-password/ui/ModalChangePassword.vue'
 import { ref } from 'vue'
+import axios from 'axios'
 
 const isChangePasswordModalVisible = ref(false)
 
 function onLogout() {
   localStorage.removeItem('token')
   location.href = '/login'
+}
+
+async function onTelegram() {
+  try {
+    const { data: token } = await axios.post('/users/generate-telegram-token')
+    const url = 'https://t.me/uflowertest_bot?start=' + token
+    window.open(url, '_blank') // откроется в новой вкладке или окне
+  } catch {
+    console.log('err')
+  }
 }
 </script>
 
@@ -47,7 +58,7 @@ function onLogout() {
 
     <div class="right">
       <ElDropdown placement="bottom-start">
-        <ElButton circle>
+        <ElButton size="large" circle>
           <ElIcon><UserFilled /></ElIcon>
         </ElButton>
 
@@ -57,7 +68,7 @@ function onLogout() {
               Сменить пароль
             </ElDropdownItem>
 
-            <ElDropdownItem>
+            <ElDropdownItem @click="onTelegram">
               Привязать телеграм
             </ElDropdownItem>
 
