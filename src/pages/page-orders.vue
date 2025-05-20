@@ -10,6 +10,7 @@ const tableHeaders = ref([
   { prop: 'name', label: 'Имя заказчика' },
   { prop: 'number', label: 'Телефон заказчика' },
   { prop: 'address', label: 'Адрес' },
+  { prop: 'total', label: 'Сумма заказа' },
 ])
 
 const { data: tableData } = useQuery<IOrder[]>({
@@ -109,7 +110,6 @@ const value2 = ref(['', ''])
         :key="index"
         :prop="item.prop"
         :label="item.label"
-        :width="item.width || undefined"
       />
     </el-table>
 
