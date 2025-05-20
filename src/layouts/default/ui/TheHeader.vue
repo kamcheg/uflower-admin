@@ -49,7 +49,7 @@ async function onTelegram() {
         </ElLink>
 
         <ElLink
-          href="/todo"
+          href="/customers"
           class="nav__item"
         >
           База клиентов
