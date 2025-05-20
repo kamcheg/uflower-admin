@@ -16,6 +16,7 @@ axios.interceptors.request.use(
 )
 
 // TODO если dadata выкинет 401 то у меня произойдет разлогирование
+// Решение - сделать запрос на profile
 axios.interceptors.response.use(
   response => response,
   async (error) => {

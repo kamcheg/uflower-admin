@@ -17,7 +17,11 @@ const data = ref<INewProduct>({
   flowerTypes: [],
   recipients: [],
   reasons: [],
-  isActive: true
+  isActive: true,
+  inStock: false,
+  width: 0,
+  height: 0,
+  priority: 0
 })
 // endregion
 

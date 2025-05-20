@@ -1,10 +1,29 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import axios from 'axios'
+import { useMutation } from '@tanstack/vue-query'
 
 const open = defineModel({required: true})
 
 const oldPassword = ref('')
 const newPassword = ref('')
+
+const changePasswordMutation = useMutation({
+  mutationFn: async () => {
+    return axios.post('/auth/change-password', {
+      oldPassword: oldPassword.value,
+      newPassword: newPassword.value,
+    })
+  },
+  onSuccess: () => {
+    ElMessage.success('Пароль изменен!')
+    open.value = false
+  },
+  onError: () => {
+    ElMessage.error('Произошла ошибка!')
+  }
+})
 </script>
 
 <template>
@@ -34,6 +53,8 @@ const newPassword = ref('')
         <ElButton
           type="primary"
           style="width: 200px;"
+          :loading="changePasswordMutation.isPending.value"
+          @click="changePasswordMutation.mutate()"
         >
           Сменить
         </ElButton>

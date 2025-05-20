@@ -3,8 +3,8 @@ import axios from "axios";
 import { ref } from 'vue'
 
 const form = ref({
-  email: 'kamil@mail.ru',
-  password: '66viboto66'
+  email: 'test@test.ru',
+  password: '12345678'
 })
 
 async function onSubmit() {
