@@ -3,8 +3,11 @@ import { Plus } from '@element-plus/icons-vue'
 import ProductForm from '@/page-modules/products/components/ProductForm.vue'
 import type { INewProduct } from '@/shared/types/product'
 import { ref } from 'vue'
-import { useMutation } from '@tanstack/vue-query'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
 import { createProduct } from '@/page-modules/products/model/api.ts'
+import { ElMessage } from 'element-plus'
+
+const queryClient = useQueryClient()
 
 // region DATA
 const open = ref(false)
@@ -25,9 +28,13 @@ const data = ref<INewProduct>({
 })
 // endregion
 
-const mutation = useMutation({
+const createMutation = useMutation({
   mutationFn: createProduct,
-  // onSuccess: () => refetch()
+  onSuccess: async () => {
+    await queryClient.invalidateQueries({ queryKey: ['catalog-items'] })
+    ElMessage.success('Карточка товара создана!')
+    open.value = false
+  }
 })
 </script>
 
@@ -58,7 +65,8 @@ const mutation = useMutation({
           <ElButton
             type="success"
             style="width: 100%;"
-            @click="mutation.mutate(data)"
+            :loading="createMutation.isPending.value"
+            @click="() => createMutation.mutate(data)"
           >
             Создать
           </ElButton>
