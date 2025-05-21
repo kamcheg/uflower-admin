@@ -51,6 +51,7 @@ const mutationSave = useMutation({
   onSuccess: async () => {
     await refetch()
     ElMessage.success('Данные о товаре обновлены!')
+    currentId.value = null
   }
 })
 
