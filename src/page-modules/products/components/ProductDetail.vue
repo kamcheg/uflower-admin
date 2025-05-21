@@ -1,46 +1,55 @@
 <script setup lang="ts">
-// ДЛЯ КОРРЕКТНОЙ РАБОТЫ КОМПОНЕНТА НУЖНО УКАЗАТЬ :KEY
 import type { IProduct } from '@/shared/types/product'
 import ProductForm from '@/page-modules/products/components/ProductForm.vue'
 import { ref, toRaw } from 'vue'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import { deleteProduct, updateProduct } from '@/page-modules/products/model/api.ts'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps<{
-  isOpen: boolean
-  data: IProduct | null
-  isDeleteButtonLoading: boolean
+  data: IProduct // TODO null
 }>()
 
 const emit = defineEmits<{
-  (e: 'save', ev: IProduct): void
-  (e: 'delete'): void
-  (e: 'close'): void
+  (name: 'close'): void
 }>()
+
+const queryClient = useQueryClient()
+
+// const isOpen = ref(false)
 
 // region DATA
 const isVisibleDeleteModal = ref(false)
 const localData = ref<IProduct>(
-  JSON.parse(JSON.stringify(toRaw(props.data))), // TODO data can be null
+  JSON.parse(JSON.stringify(toRaw(props.data)))
 )
 // endregion
 
-// region METHODS
-function onDeleteProduct() {
-  emit('delete')
-}
 
-function onSave() {
-  emit('save', localData.value)
-}
-// endregion
 
-defineExpose({
-  isVisibleDeleteModal
+const mutationDelete = useMutation({
+  mutationFn: deleteProduct,
+  onSuccess: async () => {
+    await queryClient.invalidateQueries({ queryKey: ['catalog-items'] })
+    isVisibleDeleteModal.value = false
+    ElMessage.success('Товар удален!')
+    emit('close')
+  },
+})
+
+const mutationSave = useMutation({
+  mutationFn: updateProduct,
+  onSuccess: async () => {
+    ElMessage.success('Данные о товаре обновлены!')
+    emit('close')
+    await queryClient.invalidateQueries({ queryKey: ['catalog-items'] })
+  }
 })
 </script>
 
 <template>
   <ElDrawer
-    :model-value="isOpen"
+    :model-value="true"
     size="500px"
     :title="data?.name || ''"
     @close="emit('close')"
@@ -68,7 +77,8 @@ defineExpose({
           <ElButton
             type="success"
             style="width: 100%; margin-top: 10px;"
-            @click="onSave"
+            :loading="mutationSave.isPending.value"
+            @click="mutationSave.mutate({ id: localData.id, data: localData })"
           >
             Сохранить
           </ElButton>
@@ -84,8 +94,8 @@ defineExpose({
       <div style="display: flex; justify-content:flex-end;">
         <ElButton
           type="danger"
-          :loading="isDeleteButtonLoading"
-          @click="onDeleteProduct"
+          :loading="mutationDelete.isPending.value"
+          @click="mutationDelete.mutate(localData.id)"
         >
           Да
         </ElButton>

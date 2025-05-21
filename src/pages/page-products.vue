@@ -18,15 +18,12 @@ import ProductCard from '@/page-modules/products/components/ProductCard.vue'
 import type { IProduct } from '@/shared/types/product'
 import ProductDetail from '@/page-modules/products/components/ProductDetail.vue'
 import CreateProduct from '@/page-modules/products/components/CreateProduct.vue'
-import { computed, ref, toRaw, useTemplateRef, watch } from 'vue'
-import { useMutation, useQuery } from '@tanstack/vue-query'
-import { updateProduct, deleteProduct, getProducts } from '@/page-modules/products/model/api.ts'
-import { ElMessage } from 'element-plus'
-
-const refProductDetail = useTemplateRef('refProductDetail')
+import { computed, ref, toRaw, watch } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import { getProducts } from '@/page-modules/products/model/api.ts'
 
 const products = ref<IProduct[]>([])
-const { data, refetch } = useQuery<IProduct[]>({
+const { data } = useQuery<IProduct[]>({
   queryKey: ['catalog-items'],
   queryFn: getProducts,
 })
@@ -36,39 +33,17 @@ watch(data, (newData) => {
   }
 })
 
-const mutationDelete = useMutation({
-  mutationFn: deleteProduct,
-  onSuccess: async () => {
-    await refetch()
-    refProductDetail.value!.isVisibleDeleteModal = false
-    currentId.value = null
-    ElMessage.success('Товар удален!')
-  },
-})
-
-const mutationSave = useMutation({
-  mutationFn: updateProduct,
-  onSuccess: async () => {
-    await refetch()
-    ElMessage.success('Данные о товаре обновлены!')
-    currentId.value = null
-  }
-})
-
 const currentId = ref<null | number>(null)
 
 // region COMPUTED
 const currentProduct = computed<IProduct | null>(() => {
   return products.value.find((i) => i.id === currentId.value) || null
 })
-
-const isOpenDrawer = computed(() => {
-  return currentId.value !== null
-})
 // endregion
 </script>
 
 <template>
+  <h1>currentId: {{currentId}}</h1>
   <div class="page-products">
     <CreateProduct />
 
@@ -81,13 +56,9 @@ const isOpenDrawer = computed(() => {
 
     <ProductDetail
       :key="currentId || undefined"
-      ref="refProductDetail"
-      :is-open="isOpenDrawer"
-      :data="currentProduct!"
-      :isDeleteButtonLoading="mutationDelete.isPending.value"
+      v-if="currentProduct"
+      :data="currentProduct"
       @close="currentId = null"
-      @delete="mutationDelete.mutate(currentId!)"
-      @save="mutationSave.mutate({id: currentId!, data: $event})"
     />
   </div>
 </template>
