@@ -43,7 +43,6 @@ const currentProduct = computed<IProduct | null>(() => {
 </script>
 
 <template>
-  <h1>currentId: {{currentId}}</h1>
   <div class="page-products">
     <CreateProduct />
 
