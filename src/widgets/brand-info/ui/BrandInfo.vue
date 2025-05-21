@@ -7,6 +7,7 @@ import LogoUpload from "@/widgets/brand-info/ui/LogoUpload.vue";
 import { ref, toRaw, watch } from 'vue'
 import { vMaska } from "maska/vue"
 import { phoneMask } from '@/shared/utils/phoneNormalizer.ts'
+import { ElMessage } from 'element-plus'
 
 const formData = ref<IBrandInfo>({
   id: 0,
@@ -30,7 +31,13 @@ watch(data, (newData) => {
 
 const mutation = useMutation({
   mutationFn: update,
-  onSuccess: () => refetch()
+  onSuccess: async () => {
+    ElMessage.success('Данные обновлены!')
+    await refetch()
+  },
+  onError: () => {
+    ElMessage.error('Произошла ошибка!')
+  }
 })
 </script>
 
