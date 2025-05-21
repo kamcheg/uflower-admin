@@ -9,9 +9,7 @@ import { ElMessage } from 'element-plus'
 
 const queryClient = useQueryClient()
 
-// region DATA
-const open = ref(false)
-const data = ref<INewProduct>({
+const initialData = {
   name: '',
   description: '',
   images: [],
@@ -25,7 +23,11 @@ const data = ref<INewProduct>({
   width: 0,
   height: 0,
   priority: 0
-})
+}
+
+// region DATA
+const open = ref(false)
+const data = ref<INewProduct>(JSON.parse(JSON.stringify(initialData)))
 // endregion
 
 const createMutation = useMutation({
@@ -33,6 +35,7 @@ const createMutation = useMutation({
   onSuccess: async () => {
     await queryClient.invalidateQueries({ queryKey: ['catalog-items'] })
     ElMessage.success('Карточка товара создана!')
+    data.value = JSON.parse(JSON.stringify(initialData))
     open.value = false
   }
 })
