@@ -141,8 +141,12 @@ const reasonStore = useReasonStore()
       label-position="top"
       label="Приоритет"
     >
-      <ElInput v-model.number="model.priority" type="number" />
-<!--      <div style="color: #ccc; font-size: 12px;">От -100000 до 100000</div>-->
+      <ElInputNumber
+        v-model.number="model.priority"
+        min="-100000"
+        max="100000"
+        style="width: 100%"
+      />
     </ElFormItem>
 
     <ElCheckbox v-model="model.inStock">

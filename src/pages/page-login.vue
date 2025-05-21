@@ -3,14 +3,14 @@ import axios from "axios";
 import { ref } from 'vue'
 
 const form = ref({
-  email: '',
+  phone: '',
   password: ''
 })
 
 async function onSubmit() {
   try {
     const token = await axios.post('/auth/login', {
-      email: form.value.email,
+      phone: form.value.phone,
       password: form.value.password
     }).then(r => r.data.access_token)
 
@@ -27,9 +27,9 @@ async function onSubmit() {
     <ElCard class="card">
       <p class="card__title">Вход</p>
       <ElInput
-        v-model="form.email"
+        v-model="form.phone"
         style="margin-bottom: 12px;"
-        placeholder="Email"
+        placeholder="Номер телефона"
       />
       <ElInput
         v-model="form.password"
