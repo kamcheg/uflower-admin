@@ -9,7 +9,7 @@ import { ElMessage } from 'element-plus'
 
 const queryClient = useQueryClient()
 
-const initialData = {
+const initialData: INewProduct = {
   name: '',
   description: '',
   images: [],
@@ -22,7 +22,8 @@ const initialData = {
   inStock: false,
   width: 0,
   height: 0,
-  priority: 0
+  priority: 0,
+  ingredients: []
 }
 
 // region DATA

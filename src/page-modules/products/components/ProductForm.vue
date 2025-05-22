@@ -6,6 +6,7 @@ import { useSizeStore } from '@/stores/useSizeStore.ts'
 import { useFlowerTypeStore } from '@/stores/useFlowerTypeStore.ts'
 import { useRecipientStore } from '@/stores/useRecipientStore.ts'
 import { useReasonStore } from '@/stores/useReasonStore.ts'
+import { Delete } from '@element-plus/icons-vue'
 
 const model = defineModel<IProduct | INewProduct>({ required: true })
 
@@ -28,7 +29,7 @@ const reasonStore = useReasonStore()
 
     <ElFormItem
       label-position="top"
-      label="Описание товара"
+      label="Короткое описание товара"
     >
       <ElInput
         v-model="model.description"
@@ -143,10 +144,34 @@ const reasonStore = useReasonStore()
     >
       <ElInputNumber
         v-model.number="model.priority"
-        min="-100000"
-        max="100000"
+        :min="-100000"
+        :max="100000"
         style="width: 100%"
       />
+    </ElFormItem>
+
+    <ElFormItem
+      label-position="top"
+      label="Состав"
+    >
+      <div
+        v-for="(ingredient, index) of model.ingredients"
+        :key="index"
+        style="width: 100%; grid-gap: 10px; margin-bottom: 6px; display: flex;"
+      >
+        <ElInput v-model="ingredient.value" />
+        <ElInput v-model.number="ingredient.quantity" />
+        <ElButton
+          v-if="model.ingredients.length > 1"
+          :icon="Delete"
+          circle
+          type="danger"
+          @click="model.ingredients = model.ingredients.filter((_, y) => index !== y)"
+        />
+      </div>
+      <ElButton @click="model.ingredients.push({ value: '', quantity: 0 })">
+        Добавить
+      </ElButton>
     </ElFormItem>
 
     <ElCheckbox v-model="model.inStock">

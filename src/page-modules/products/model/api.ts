@@ -23,7 +23,8 @@ export async function getProducts(): Promise<IProduct[]> {
     inStock: p.inStock,
     height: p.height,
     width: p.width,
-    priority: p.priority
+    priority: p.priority,
+    ingredients: p.ingredients || []
   }))
 }
 

@@ -13,6 +13,10 @@ export interface IProduct {
   height: number
   width: number
   priority: number
+  ingredients: {
+    value: string,
+    quantity: number
+  }[]
 }
 
 export interface INewProduct extends Omit<IProduct, 'id' | 'price'> {
