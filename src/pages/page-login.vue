@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import axios from "axios";
 import { ref } from 'vue'
+import { getRawPhoneNumber, phoneMask } from '@/shared/utils/phoneNormalizer.ts'
+import { vMaska } from "maska/vue"
 
 const form = ref({
   phone: '',
@@ -10,7 +12,7 @@ const form = ref({
 async function onSubmit() {
   try {
     const token = await axios.post('/auth/login', {
-      phone: form.value.phone,
+      phone: getRawPhoneNumber(form.value.phone),
       password: form.value.password
     }).then(r => r.data.access_token)
 
@@ -28,6 +30,7 @@ async function onSubmit() {
       <p class="card__title">Вход</p>
       <ElInput
         v-model="form.phone"
+        v-maska="phoneMask"
         style="margin-bottom: 12px;"
         placeholder="Номер телефона"
       />
