@@ -6,6 +6,7 @@ import { toPrettyPhone } from '@/shared/utils/phoneNormalizer.ts'
 import { toReadableNumber } from '@/shared/lib/toReadableNumber.ts'
 
 interface ICustomer {
+  name: string
   phone: string
   total: string
   ordersQuantity: number
@@ -24,6 +25,7 @@ const { data: tableData } = useQuery<ICustomer[]>({
       .then(r => r.data)
 
     return data.map((item): ICustomer => ({
+      name: '',
       phone: toPrettyPhone(item.customerPhone),
       total: `${toReadableNumber(item.sum)} ₽`,
       ordersQuantity: item.orders

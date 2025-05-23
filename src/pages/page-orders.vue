@@ -85,6 +85,10 @@ const value2 = ref(['', ''])
       style="margin-bottom: 24px;"
     />
 
+    <h1 style="margin-bottom: 12px;">
+      Заказы
+    </h1>
+
     <el-table
       border
       :data="tableData"
