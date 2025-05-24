@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import axios from "axios";
+import axios from 'axios'
 import { ref } from 'vue'
 import { getRawPhoneNumber, phoneMask } from '@/shared/utils/phoneNormalizer.ts'
 import { vMaska } from "maska/vue"
+import { ElMessage } from 'element-plus'
 
 const form = ref({
   phone: '',
@@ -18,8 +19,12 @@ async function onSubmit() {
 
     localStorage.setItem('token', token)
     window.location.href = '/'
-  } catch (e) {
-    console.log(e) // TODO
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err) && err.status === 401) {
+      ElMessage.error(err.response?.data?.message || 'Неизвестная ошибка!')
+    } else {
+      ElMessage.error('Неизвестная ошибка!')
+    }
   }
 }
 </script>

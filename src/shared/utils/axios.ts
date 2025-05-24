@@ -20,7 +20,9 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   response => response,
   async (error) => {
-    if (error.response.status === 401) {
+    const isOnLoginPage = window.location.pathname === '/login';
+
+    if (error.response.status === 401 && !isOnLoginPage) {
       localStorage.removeItem('token')
       window.location.href = '/login'
     }

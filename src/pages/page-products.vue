@@ -35,11 +35,9 @@ watch(data, (newData) => {
 
 const currentId = ref<null | number>(null)
 
-// region COMPUTED
 const currentProduct = computed<IProduct | null>(() => {
   return products.value.find((i) => i.id === currentId.value) || null
 })
-// endregion
 </script>
 
 <template>
