@@ -1,16 +1,37 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { getRawPhoneNumber, phoneMask } from '@/shared/utils/phoneNormalizer.ts'
 import { vMaska } from "maska/vue"
 import { ElMessage } from 'element-plus'
+import { useVuelidate } from '@vuelidate/core'
+import { helpers, minLength, required } from '@vuelidate/validators'
+import { validationErrors } from '@/shared/lib/validate/errors.ts'
+import { phoneValidator } from '@/shared/lib/validate/validators.ts'
 
 const form = ref({
   phone: '',
   password: ''
 })
 
+/* VUELIDATE */
+const v$ = useVuelidate(computed(() => {
+  return {
+    phone: {
+      required: helpers.withMessage(validationErrors.required, required),
+      correctPhone: helpers.withMessage(validationErrors.phone, phoneValidator)
+    },
+    password: {
+      required: helpers.withMessage(validationErrors.required, required),
+      minLength: helpers.withMessage(validationErrors.minLength(8), minLength(8))
+    }
+  }
+}), form)
+
 async function onSubmit() {
+  v$.value.$touch()
+  if (v$.value.$invalid) { return }
+
   try {
     const token = await axios.post('/auth/login', {
       phone: getRawPhoneNumber(form.value.phone),
@@ -33,18 +54,26 @@ async function onSubmit() {
   <div class="page-login">
     <ElCard class="card">
       <p class="card__title">Вход</p>
-      <ElInput
-        v-model="form.phone"
-        v-maska="phoneMask"
-        style="margin-bottom: 12px;"
-        placeholder="Номер телефона"
-      />
-      <ElInput
-        v-model="form.password"
-        style="margin-bottom: 12px;"
-        placeholder="Пароль"
-        type="password"
-      />
+      <ElFormItem
+        :error="v$.phone.$errors.length ? String(v$.phone.$errors[0].$message) : undefined"
+      >
+        <ElInput
+          v-model="form.phone"
+          v-maska="phoneMask"
+          placeholder="Номер телефона"
+        />
+      </ElFormItem>
+
+      <ElFormItem
+        :error="v$.password.$errors.length ? String(v$.password.$errors[0].$message) : undefined"
+      >
+        <ElInput
+          v-model="form.password"
+          placeholder="Пароль"
+          type="password"
+        />
+      </ElFormItem>
+
       <div class="card__btn-wrapper">
         <ElButton
           type="primary"
