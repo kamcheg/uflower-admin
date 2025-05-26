@@ -22,10 +22,15 @@ axios.interceptors.response.use(
   async (error) => {
     const isOnLoginPage = window.location.pathname === '/login';
 
+    if (!error.config.url.startsWith(axios.defaults.baseURL)) {
+      return Promise.reject(error)
+    }
+
     if (error.response.status === 401 && !isOnLoginPage) {
       localStorage.removeItem('token')
       window.location.href = '/login'
     }
+
     return Promise.reject(error)
   }
 )
