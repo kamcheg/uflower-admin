@@ -11,20 +11,20 @@ defineProps<{
   <div class="product">
     <div class="image-border">
       <img
-        :src="data.images[0]"
+        :src="data?.images?.[0]"
         alt=""
       >
     </div>
 
     <div class="product-info">
       <div class="product-info__item">
-        <b>{{ data.name }}</b>
+        <b>{{ data?.name }}</b>
       </div>
       <div class="product-info__item">
-        Цена за шт: <b>{{ toReadableNumber(data.price) }} ₽</b>
+        Цена за шт: <b>{{ toReadableNumber(data?.price) }} ₽</b>
       </div>
       <div class="product-info__item">
-        Количество: <b>{{ data.quantity }}</b>
+        Количество: <b>{{ data?.quantity }}</b>
       </div>
     </div>
   </div>

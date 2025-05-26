@@ -6,6 +6,7 @@ export interface IOrder {
   number: string
   address: string
   comment?: string
+  createdAt: string
   products: IProductInOrder[]
   total: number
   isMyOrder: boolean
