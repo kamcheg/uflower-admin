@@ -135,7 +135,11 @@ const reasonStore = useReasonStore()
     >
       <MassUpload
         v-model="model.images"
+        v-model:favorite="model.mainImageIndex"
       />
+      <p style="font-size: 12px; line-height: 1; margin-top: 6px; color: #a1a1a1;">*
+        ⭐ Главное фото — отображается в списке товаров.
+      </p>
     </ElFormItem>
 
     <ElFormItem

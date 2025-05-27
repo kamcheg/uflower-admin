@@ -16,16 +16,12 @@ const emit = defineEmits<{
 
 const queryClient = useQueryClient()
 
-// const isOpen = ref(false)
-
 // region DATA
 const isVisibleDeleteModal = ref(false)
 const localData = ref<IProduct>(
   JSON.parse(JSON.stringify(toRaw(props.data)))
 )
 // endregion
-
-
 
 const mutationDelete = useMutation({
   mutationFn: deleteProduct,

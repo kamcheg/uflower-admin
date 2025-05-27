@@ -15,9 +15,8 @@ const emit = defineEmits<{
   <div class="product-card">
     <div class="image-place">
       <div class="image-place__inner">
-        <!--        TODO -->
         <img
-          :src="data.images[0]"
+          :src="data.images[data.mainImageIndex] || data.images[0]"
           alt=""
         >
       </div>

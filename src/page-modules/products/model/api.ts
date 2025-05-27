@@ -14,6 +14,7 @@ export async function getProducts(): Promise<IProduct[]> {
     name: p.name,
     description: p.description,
     images: p.images,
+    mainImageIndex: p.mainImageIndex,
     price: p.price,
     size: p.size.id,
     flowerTypes: p.flowerTypes.map(p => p.id),

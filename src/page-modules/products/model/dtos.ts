@@ -9,6 +9,7 @@ export type ProductFromServer = {
   "width": number
   "height": number
   "images": string[]
+  "mainImageIndex": number
   ingredients: {value: string, quantity: number}[] | null
   "size": {
     "id": number

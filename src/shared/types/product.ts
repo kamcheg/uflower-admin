@@ -3,6 +3,7 @@ export interface IProduct {
   name: string
   description: string
   images: string[]
+  mainImageIndex: number
   price: number
   size: number | null
   flowerTypes: number[]

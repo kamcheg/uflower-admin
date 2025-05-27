@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import MyUpload from '@/shared/components/MyUpload.vue'
-import { FullScreen, Delete } from '@element-plus/icons-vue'
+import { Star, Delete, StarFilled } from '@element-plus/icons-vue'
 
+const modelFavorite = defineModel<number>('favorite', { required: true })
 const model = defineModel<string[]>({required: true})
 
 function onDelete(image: string) {
@@ -17,20 +18,30 @@ function onDelete(image: string) {
     />
 
     <div
-      v-for="image of model"
+      v-for="(image, index) of model"
       :key="image"
       class="image-wrapper gallery__item"
     >
       <img :src="image" alt="Photo">
-      <div class="overlay">
-        <div class="buttons">
-          <ElButton :icon="FullScreen" circle />
-          <ElButton
-            :icon="Delete"
-            circle
-            @click="onDelete(image)"
-          />
-        </div>
+      <div class="image-wrapper__buttons">
+        <ElButton
+          circle
+          @click="modelFavorite = index"
+        >
+          <ElIcon size="18px">
+            <StarFilled
+              v-if="modelFavorite === index"
+              style="color: darkorange;"
+            />
+            <Star v-else />
+          </ElIcon>
+        </ElButton>
+
+        <ElButton
+          :icon="Delete"
+          circle
+          @click="onDelete(image)"
+        />
       </div>
     </div>
   </div>
@@ -54,32 +65,18 @@ function onDelete(image: string) {
       opacity: 1;
     }
 
+    &__buttons {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
+
     img {
       display: block;
       object-fit: cover;
       height: 100%;
       width: 100%;
       border-radius: 12px;
-    }
-
-    .overlay {
-      opacity: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: .2s;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, .5);
-      border-radius: 12px;
-
-      .buttons {
-        color: #fff;
-      }
     }
   }
 }
