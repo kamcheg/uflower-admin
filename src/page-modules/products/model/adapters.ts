@@ -14,6 +14,7 @@ export function toCreateDto(event: INewProduct) {
     recipientIds: event.recipients,
     flowerTypeIds: event.flowerTypes,
     images: event.images,
+    mainImageIndex: event.mainImageIndex,
     priority: event.priority,
     ingredients: event.ingredients
   }

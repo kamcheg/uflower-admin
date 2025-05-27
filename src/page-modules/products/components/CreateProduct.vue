@@ -13,6 +13,7 @@ const initialData: INewProduct = {
   name: '',
   description: '',
   images: [],
+  mainImageIndex: 0,
   price: '',
   size: null,
   flowerTypes: [],
